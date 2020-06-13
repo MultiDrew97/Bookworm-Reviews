@@ -6,11 +6,16 @@
     "start": "node bin/server"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "bower": "~1.8.8",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "morgan": "~1.9.1",
-    "bower": "~1.8.8",
-    "mongoose": "~5.9.18"
+    "file": "^0.2.2",
+    "mongoose": "~5.9.18",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "filereader": "^0.10.3"
   }
 }
