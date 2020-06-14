@@ -1,0 +1,58 @@
+nav ul li {
+    display: inline;
+    padding: 0;
+    width: 50%;
+}
+#profile-picture {
+    height: 5%;
+    width: 3%;
+    border: 3px solid white;
+    border-radius: 50%;
+    position: absolute;
+    top: 5%;
+    left: 3%;
+    /* TODO: Figure out the relative placements of profile picture */
+}
+
+#Blog-List {
+    overflow: auto;
+    margin: 0 25%;
+    text-align: center;
+}
+
+.book-title {
+    color: darkgray;
+}
+
+a:hover {
+    color: coral;
+}
+
+.main-header {
+    text-align: center;
+    background-image: url('../images/header_image.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: contain;
+}
+
+#home-link img {
+    height: 1%;
+    width: 1%;
+}
+
+#bottom-of-page {
+    text-align: right;
+}
+
+#topLink {
+    text-align: center;
+}
+
+.title, .release-date {
+    text-align: center;
+}
+
+.blog-post {
+    border-radius: 10%;
+}

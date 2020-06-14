@@ -18,16 +18,17 @@ const port = 3000;
 // configuration ================================
 
 // config files
+/* TODO: Make sure to reimplement the database connection
 console.log('connecting--', db);
 mongoose.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }); // Mongoose connection created
-
+*/
 // frontend routes ==========================================
 
 // routes are defined within the appRoutes.js file. I don't need the routes that are located within this file
 
 // sample api route
 // grab the student model I created
-let BlogPost = require('./public/res/models/blogPost');
+let BlogPost = require('./public/javascripts/models/blogPost');
 app.get('/api/blogposts', (req, res) => {
     // use mongoose to get all students in the database
     BlogPost.find((err, blogPosts) => {
@@ -85,10 +86,9 @@ app.get('/blogs/*', (req, res) => {
     }
 });
 
-// startup our app at http://localhost:3000
-app.listen(port, ()=> console.log(`Website listening on port ${port}`));
-
 const fileExists = (fileName) => {
     //`$__dirname}\\public\\blogs\\${fileName}`
     return true;
 }
+
+module.exports = app;

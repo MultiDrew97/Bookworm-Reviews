@@ -1,6 +1,6 @@
 angular.module('AboutCtrl', []).controller('AboutController', ($scope) => {
     // TODO: Implement the About Page after figuring out how to manipulate angular pages
-    $scope.message = 'Welcome to About section!';
+    $scope.tagline = 'Welcome to the about section!';
 });
 /*
 

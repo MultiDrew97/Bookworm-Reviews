@@ -1,12 +1,46 @@
 <!DOCTYPE HTML>
-<html lang="en">
-  <head>
-    <title>Express</title>
-    <link rel="stylesheet" href="./stylesheets/style.css">
-  </head>
+<html lang="en" ng-app="Bookworm Reviews">
+    <head>
+        <meta charset="UTF-8">
+        <base href="/"/>
+        <title>Bookworm Reviews</title>
 
-  <body>
-    <h1>Express</h1>
-    <p>Welcome to Express</p>
-  </body>
+        <!-- CSS -->
+        <link rel="stylesheet" href="./libs/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="./stylesheets/index.css" />
+
+        <!-- JS -->
+        <script src="./libs/angular/angular.min.js"></script>
+        <script src="./libs/angular-route/angular-route.min.js"></script>
+
+        <!-- ANGULAR CUSTOM -->
+        <script src="./javascripts/controllers/MainCtrl.js"></script>
+        <script src="./javascripts/controllers/AboutCtrl.js"></script>
+        <script src="./javascripts/appRoutes.js"></script>
+        <script src="./javascripts/app.js"></script>
+    </head>
+
+    <body ng-app="Bookworm Reviews" ng-controller="MainController">
+        <header>
+            <nav>
+                <a href="/" id="home-link"><img src="./images/home_logo.png" alt="Home Logo"/></a>
+                <a href="/about" id="about-link">About Me</a>
+                <a href="/review_request" id="request-link">Request Review</a>
+                <label for="SearchBox">Search</label>
+                <input type="text" id="SearchBox">
+                <input type="submit" id="SearchButton" value="Search">
+            </nav>
+        </header>
+
+        <!-- ANGULAR DYNAMIC PORTION -->
+        <!-- TODO: I'm not to confident in how this works for webpages. I'll have to mess around
+                with it more to get a better understanding of how exactly it works -->
+        <div ng-view></div>
+
+        <footer id="bottom-of-page">
+            <p><small>&copy;2020 Book Worm's Reviews</small></p>
+            <p><small>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></small></p>
+            <a href="#" id="topLink">Back to Top</a>
+        </footer>
+    </body>
 </html>
