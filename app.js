@@ -3,14 +3,18 @@
 const mongoose = require('mongoose');
 const db = require('./public/res/utils/db');
 const express = require('express');
-const bodyParser = require('body-parser')
+//const bodyParser = require('body-parser')
 const File = require('file');
 const FileReader = require('filereader');
 const app = express();
 
-app.use(express.static(`${__dirname}/public`));
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(logger('dev'));
+//app.use(cookieParser());
 
 // set the port
 const port = 3000;
