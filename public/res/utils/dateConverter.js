@@ -7,5 +7,12 @@ module.exports.monthConverter = (month) => {
 
 module.exports.dateToString = (month, day, year) => {
     // outputs the date in a Jan 1, 1970 format
-    return `${month} ${day}, ${year}`;
+    /* TODO: Ensure that this is still outputting in the desired format.
+     *  This was working with the blogPost inserts, but seemed to break for the requests inserts.
+     *  ex:
+     *          in the request model, I have it look the same way it is in the blog post model
+     *          the blog post model seemed to work to where I didn't have to call the monthConverter method
+     *          now that I have the request model, this seems to not be the case anymore.
+     */
+    return `${this.monthConverter(month)} ${day}, ${year}`;
 }

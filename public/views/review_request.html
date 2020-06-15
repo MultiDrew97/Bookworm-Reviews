@@ -9,7 +9,7 @@
 
     <body ng-app="Bookworm Reviews" ng-controller="RequestController">
         <main class="container">
-            <form class="request-form">
+            <form class="request-form" method="post" action="/api/requests/send">
                 <label for="name">Name</label>
                 <input name="Name" id="name" required>
 
@@ -27,7 +27,7 @@
                 <label for="extra">Additional Info</label>
                 <textarea name="Extra" id="extra" cols="40" rows="4"></textarea>
 
-                <input type="submit" name="Submit" id="Submit" value="Submit" formaction="/api/requests"/>
+                <input type="submit" name="Submit" id="Submit" value="Submit"/>
             </form>
         </main>
     </body>

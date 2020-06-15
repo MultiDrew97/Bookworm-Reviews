@@ -86,22 +86,36 @@ app.get('/blogs/*', (req, res) => {
     }
 });
 
+// Request Related methods
+
 let Request = require('./public/javascripts/models/request')
+
 app.get('/api/requests', (req, res) => {
-    let request = new Request();
-    request.bookTitle = req.query.BookTitle;
-    request.bookAuthor = req.query.Author;
-    request.requester.Name = req.query.Name || 'Anon';
-    request.requester.Email = req.query.Email;
-    request.extra = req.query.Extra;
-
-    res.json({message: 'Request submitted successfully!'});
-
-    /*request.save((err) => {
+    Request.find((err, requests) => {
+        // if there is an error retrieving, send the error.
+        // nothing after res.send(err) will execute
         if (err)
             res.send(err);
-        res.status = 200;
-    });*/
+
+        res.json(requests); // return all students in JSON format
+    });
+});
+
+app.post('/api/requests/send', (req, res) => {
+    let request = new Request();
+    request.bookTitle = req.body.BookTitle;
+    request.bookAuthor = req.body.Author;
+    request.requester.Name = req.body.Name || 'Anon';
+    request.requester.Email = req.body.Email;
+    request.extra = req.body.Extra;
+
+    res.json({request: request});
+
+    request.save((err) => {
+        if (err)
+            res.send(err);
+        //res.json({message: 'Request submitted successfully!'});
+    });
 });
 
 /*const fileExists = (fileName) => {
