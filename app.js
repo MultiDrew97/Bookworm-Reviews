@@ -7,13 +7,21 @@ const bodyParser = require('body-parser')
 const File = require('file');
 const FileReader = require('filereader');
 const app = express();
+//const csp = require('express-csp-header');
 
 app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
+/*app.use(csp({
+    policies: {
+        'default-src': [csp.NONE],
+        'img-src': [csp.SELF]
+    }
+}));*/
+
 // set the port
-const port = 3000;
+// const port = 3000;
 
 // configuration ================================
 
@@ -63,10 +71,10 @@ app.delete('/api/blogposts/:bookTitle:bookAuthor', function(req, res) {
     BlogPost.remove({
         bookTitle: req.params.bookTitle,
         bookAuthor: req.params.bookAuthor
-    }, (err, bear) => {
+    }, (err) => {
         if(err)
             res.send(err);
-        res.json({message: 'successfully deleted'});
+        res.json({statusCode: 200});
     });
 });
 
@@ -86,9 +94,27 @@ app.get('/blogs/*', (req, res) => {
     }
 });
 
-const fileExists = (fileName) => {
+let Request = require('./public/javascripts/models/request')
+app.get('/api/requests', (req, res) => {
+    let request = new Request();
+    request.bookTitle = req.query.BookTitle;
+    request.bookAuthor = req.query.Author;
+    request.requester.Name = req.query.Name || 'Anon';
+    request.requester.Email = req.query.Email;
+    request.extra = req.query.Extra;
+
+    res.json({message: 'Request submitted successfully!'});
+
+    /*request.save((err) => {
+        if (err)
+            res.send(err);
+        res.status = 200;
+    });*/
+});
+
+/*const fileExists = (fileName) => {
     //`$__dirname}\\public\\blogs\\${fileName}`
     return true;
-}
+}*/
 
 module.exports = app;

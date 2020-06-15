@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="Bookworm Reviews">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>Bookworm Reviews</title>
     </head>
-    <body>
-        <main id="main-section">
-            <div id="Blog-List">
 
+    <body ng-app="Bookworm Reviews" ng-controller="MainController">
+        <main class="container">
+            <div id="Blog-List">
+                <article class="blog-post">
+                    <header class="blog-header">
+                        <h3 class="book-title">Vixen</h3>
+                        <p class="description">Just a book</p>
+                    </header>
+                    <footer class="blog-footer">
+                        <p class="book-published">Published: December 14, 2010</p>
+                    </footer>
+                </article>
             </div>
         </main>
     </body>

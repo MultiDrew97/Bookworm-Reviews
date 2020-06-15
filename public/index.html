@@ -16,6 +16,7 @@
         <!-- ANGULAR CUSTOM -->
         <script src="./javascripts/controllers/MainCtrl.js"></script>
         <script src="./javascripts/controllers/AboutCtrl.js"></script>
+        <script src="./javascripts/controllers/RequestCtrl.js"></script>
         <script src="./javascripts/appRoutes.js"></script>
         <script src="./javascripts/app.js"></script>
     </head>
@@ -35,7 +36,10 @@
         <!-- ANGULAR DYNAMIC PORTION -->
         <!-- TODO: I'm not to confident in how this works for webpages. I'll have to mess around
                 with it more to get a better understanding of how exactly it works -->
-        <div ng-view></div>
+        <div class="dynamic">
+            <!-- This allows the page to be dynamically displayed using angular libraries -->
+            <ng-view/>
+        </div>
 
         <footer id="bottom-of-page">
             <p><small>&copy;2020 Book Worm's Reviews</small></p>

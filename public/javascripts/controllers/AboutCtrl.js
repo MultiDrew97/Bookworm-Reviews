@@ -1,7 +1,8 @@
-angular.module('AboutCtrl', []).controller('AboutController', ($scope) => {
+angular.module('AboutCtrl', []).controller('AboutController', function($scope) {
     // TODO: Implement the About Page after figuring out how to manipulate angular pages
-    $scope.tagline = 'Welcome to the about section!';
+    $scope.tagline = 'About Controller';
 });
+
 /*
 
 let StudentCtrl = () => {
