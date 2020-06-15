@@ -7,18 +7,10 @@ const bodyParser = require('body-parser')
 const File = require('file');
 const FileReader = require('filereader');
 const app = express();
-//const csp = require('express-csp-header');
 
 app.use(express.static(`${__dirname}/public`));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
-/*app.use(csp({
-    policies: {
-        'default-src': [csp.NONE],
-        'img-src': [csp.SELF]
-    }
-}));*/
 
 // set the port
 // const port = 3000;
