@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const dateConverter = require('../../res/utils/dateConverter');
+const dateConverter = require('../utils/dateConverter');
 let currentDate = new Date(Date.now());
 
 /* This will be needed when adding a blog post to the database. This will allow the date to be

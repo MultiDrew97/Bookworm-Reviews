@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const dateConverter = require('../../res/utils/dateConverter');
+const dateConverter = require('../utils/dateConverter');
 let currentDate = new Date(Date.now());
 
 /* This will be needed when adding a blog post to the database. This will allow the date to be
@@ -19,7 +19,7 @@ module.exports = mongoose.model('BlogPost', {
         type: String,
         default: ''
     },
-    bookPublicationDate: {
+    bookPubDate: {
         type: String,
         default: 'Jan 1, 1970'
     },
@@ -27,7 +27,7 @@ module.exports = mongoose.model('BlogPost', {
         type: String,
         default: `${__dirname}\\public\\blogs\\`
     },
-    blogPublicationDate: {
+    blogPubDate: {
         type: String,
         // converts the current date to a string
         default: `${dateConverter.dateToString(currentDate.getMonth(), currentDate.getDate(), currentDate.getFullYear())}`

@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="Bookworm Reviews">
     <head>
-        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../stylesheets/home.css"/>
         <title>Bookworm Reviews</title>
     </head>
-
     <body ng-app="Bookworm Reviews" ng-controller="MainController">
         <main class="container">
-            <div id="Blog-List">
+            <section class="searchBar">
+                <label for="SearchBox">Search</label>
+                <input type="text" id="SearchBox">
+                <input type="submit" id="SearchButton" value="Search">
+            </section>
+
+            <div ng-repeat="blog in blogs">
                 <article class="blog-post">
                     <header class="blog-header">
-                        <h3 class="book-title">Vixen</h3>
-                        <p class="description">Just a book</p>
+                        <h3 class="book-title"> {{blog.bookTitle | uppercase}} </h3>
+                        <p class="description"></p>
                     </header>
                     <footer class="blog-footer">
-                        <p class="book-published">Published: December 14, 2010</p>
+                        <p class="book-published">{{blog.pubDate | date}}</p>
                     </footer>
                 </article>
             </div>

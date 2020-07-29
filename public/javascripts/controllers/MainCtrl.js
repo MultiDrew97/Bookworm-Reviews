@@ -1,6 +1,6 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope) {
     // TODO: Implement the About Page after figuring out how to manipulate angular pages
-    $scope.tagline = "Main Controller"
+    //$scope.blogs = db.prototype.getReviews();
 });
 
 /*

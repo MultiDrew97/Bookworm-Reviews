@@ -1,7 +1,5 @@
 // Modules ==================================
 
-const mongoose = require('mongoose');
-const db = require('./public/res/utils/db');
 const express = require('express');
 const bodyParser = require('body-parser')
 const File = require('file');
@@ -15,13 +13,6 @@ app.use(bodyParser.json());
 // set the port
 // const port = 3000;
 
-// configuration ================================
-
-// config files
-/* TODO: Make sure to reimplement the database connection
-console.log('connecting--', db);
-mongoose.connect(db.url, { useNewUrlParser: true, useUnifiedTopology: true }); // Mongoose connection created
-*/
 // frontend routes ==========================================
 
 // routes are defined within the appRoutes.js file. I don't need the routes that are located within this file
