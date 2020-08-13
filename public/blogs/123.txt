@@ -1,0 +1,3 @@
+Sample blog post for the book Vixen by Jillian.
+
+This should be used for testing.

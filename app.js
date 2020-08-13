@@ -73,7 +73,7 @@ app.get('/blogs/*', (req, res) => {
         }
         reader.readAsText(file);
     } else {
-        res.send('Sorry, that blog post doesn\'t exist. Please contact the system administrator.')
+        res.send("Sorry, that blog post doesn't exist. Please contact the system administrator.")
     }
 });
 
@@ -109,9 +109,10 @@ app.post('/api/requests/send', (req, res) => {
     });
 });
 
-/*const fileExists = (fileName) => {
+const fileExists = (fileName) => {
     //`$__dirname}\\public\\blogs\\${fileName}`
+    console.WriteLine(fileName)
     return true;
-}*/
+}
 
 module.exports = app;

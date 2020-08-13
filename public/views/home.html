@@ -6,20 +6,18 @@
     </head>
     <body ng-app="Bookworm Reviews" ng-controller="MainController">
         <main class="container">
-            <section class="searchBar">
-                <label for="SearchBox">Search</label>
-                <input type="text" id="SearchBox">
-                <input type="submit" id="SearchButton" value="Search">
-            </section>
-
             <div ng-repeat="blog in blogs">
                 <article class="blog-post">
+                    <img ng-src="{{ blog.bookCover }}" alt="{{ blog.bookTitle }} Book Cover"/>
                     <header class="blog-header">
-                        <h3 class="book-title"> {{blog.bookTitle | uppercase}} </h3>
-                        <p class="description"></p>
+                        <h3 class="book-title"> {{ blog.bookTitle | uppercase }} </h3>
+                        <h5 class="book-author"> {{ blog.bookAuthor | uppercase }}</h5>
+                        <p class="description">{{ blog.description }}</p>
                     </header>
+
+                    <!-- TODO: figure out what else to show with the blog posts-->
                     <footer class="blog-footer">
-                        <p class="book-published">{{blog.pubDate | date}}</p>
+                        <p class="book-published">{{ blog.bookPubDate | date }}</p>
                     </footer>
                 </article>
             </div>

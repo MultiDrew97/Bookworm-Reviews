@@ -1,6 +1,24 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope) {
-    // TODO: Implement the About Page after figuring out how to manipulate angular pages
-    //$scope.blogs = db.prototype.getReviews();
+    $scope.blogs = [{
+        bookTitle: "Vixen",
+        bookAuthor: "Jillian Larkin",
+        bookPubDate: Date.now(),
+        description: "Sample description of the book",
+        bookCover: "../images/123.png",
+        blogID: "123"
+    }, {
+        bookTitle: "Ready Player One",
+        bookAuthor: "Ernest Cline",
+        bookPubDate: Date.now(),
+        description: "Sample description of the book",
+        bookCover: "../images/234.png",
+        blogID: "234"
+    }];
+
+    // TODO: style the blog posts to be in a 3+ column format and beutify the blog postings
+
+    // TODO: figure out how to pass on the blogID from this page to the blog display page and how to get
+    //      text from a file based on information from the post db entry
 });
 
 /*

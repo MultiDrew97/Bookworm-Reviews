@@ -44,7 +44,7 @@ a:hover {
 #home-link img {
     width: 2%;
     border: black 3px solid;
-    border-radius: 10px;
+    border-radius: 25%;
     padding: 5px;
 }
 
@@ -62,4 +62,8 @@ a:hover {
 
 .blog-post {
     border-radius: 10%;
+}
+
+.container {
+    width: 50%
 }
