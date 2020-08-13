@@ -1,6 +1,8 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope) {
-    // TODO: Implement the About Page after figuring out how to manipulate angular pages
-    //$scope.blogs = db.prototype.getReviews();
+    // TODO: Figure out how to access the database from this page
+    //      potentially using an API call on the website. Set up an
+    //      API route for the website to use and access the database from there
+    //$scope.blogs = DB.prototype.getReviews();
 });
 
 /*
