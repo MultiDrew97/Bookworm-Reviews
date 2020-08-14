@@ -8,7 +8,7 @@
         <main class="container">
             <div ng-repeat="blog in blogs">
                 <article class="blog-post">
-                    <img ng-src="{{ blog.bookCover }}" alt="{{ blog.bookTitle }} Book Cover"/>
+                    <img ng-src="../images/covers/{{ blog.blogID }}.png" alt="{{ blog.bookTitle }} Book Cover"/>
                     <header class="blog-header">
                         <h3 class="book-title"> {{ blog.bookTitle | uppercase }} </h3>
                         <h5 class="book-author"> {{ blog.bookAuthor | uppercase }}</h5>
