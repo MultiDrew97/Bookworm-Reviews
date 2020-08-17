@@ -11,7 +11,14 @@ angular.module('MainCtrl', []).controller('MainController', function($scope) {
         bookAuthor: "Ernest Cline",
         bookPubDate: Date.now(),
         description: "Sample description of the book"
-    }];
+    }, {
+        blogID: 345,
+        bookTitle: "The Life We Bury",
+        bookAuthor: "Allen Eskens",
+        bookPubDate: Date.now(),
+        description: "Sample description of the book"
+    }
+    ];
 
     // TODO: style the blog posts to be in a 3+ column format and beautify the blog postings
 

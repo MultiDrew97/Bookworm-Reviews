@@ -4,13 +4,13 @@
         <link rel="stylesheet" href="../stylesheets/home.css"/>
         <title>Bookworm Reviews</title>
 
-        <script src="public/javascripts/utils/db.js"></script>
+        <!--<script src="../javascripts/utils/db.js"></script>-->
     </head>
     <body ng-app="Bookworm Reviews" ng-controller="MainController">
         <main class="container">
-            <div ng-repeat="blog in blogs">
-                <article class="blog-post">
-                    <img ng-src="../images/covers/{{ blog.blogID }}.png" alt="{{ blog.bookTitle }} Book Cover"/>
+            <div class="blog-posts" ng-repeat="blog in blogs">
+                <article class="blog-entry">
+                    <a ng-href="/blogs?blogID={{ blog.blogID }} "><img class="book-cover" ng-src="../images/covers/{{ blog.blogID }}.png" alt="{{ blog.bookTitle }} Book Cover"/></a>
                     <header class="blog-header">
                         <h3 class="book-title"> {{ blog.bookTitle | uppercase }} </h3>
                         <h5 class="book-author"> {{ blog.bookAuthor | uppercase }}</h5>

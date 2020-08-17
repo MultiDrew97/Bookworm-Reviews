@@ -65,5 +65,9 @@ a:hover {
 }
 
 .container {
-    width: 50%
+    width: 75%;
+}
+
+#search-bar {
+    display: inline-flex;
 }

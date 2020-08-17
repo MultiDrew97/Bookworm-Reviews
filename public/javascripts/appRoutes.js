@@ -17,7 +17,20 @@ angular.module('appRoutes', [])
             .when('/review_request', {
                 templateUrl: 'views/review_request.html',
                 controller: 'RequestController'
-            });
+            })
+
+            // TODO: Learn how to pass the blogID to the url and retrieve it in the path
+            // Blog post
+            .when('/blogs', {
+                templateUrl: 'views/blogPost.html',
+                controller: 'BlogController'
+            })
+
+            // Not Found 404 error page
+            /*.otherwise({
+                redirectTo: '/'
+            })*/;
+
         $locationProvider.html5Mode(true);
         // TODO: Create all of the routes that will be used for the website.
         //  this only has a few of the routes but there are more routes planned
