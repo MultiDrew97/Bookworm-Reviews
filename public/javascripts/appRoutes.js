@@ -27,9 +27,9 @@ angular.module('appRoutes', [])
             })
 
             // Not Found 404 error page
-            /*.otherwise({
+            .otherwise({
                 redirectTo: '/'
-            })*/;
+            });
 
         $locationProvider.html5Mode(true);
         // TODO: Create all of the routes that will be used for the website.

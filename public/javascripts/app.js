@@ -3,7 +3,7 @@ angular.module('Bookworm Reviews',
              'appRoutes',
              'MainCtrl',
              'AboutCtrl',
-             'RequestCtrl',
-             'BlogCtrl'
-    ]
+             'BlogCtrl',
+             'RequestCtrl'
+             ]
 );
