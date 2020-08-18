@@ -5,8 +5,20 @@
         <title>Bookworm Reviews</title>
     </head>
     <body ng-app="Bookworm Reviews" ng-controller="BlogController">
-        <main class="container">
-            <p class="blogID"> {{ name }}</p>
-        </main>
+        <article class="container">
+            <header>
+                <h1 class="book-title"> {{ bookTitle }}</h1>
+                <h2 class="book-author"> {{ bookAuthor }}</h2>
+                <h4 class="blog-pub-date"> {{ blogPubDate | date }}</h4>
+                <h4 class="book-pub-date"> {{ bookPubDate | date }}</h4>
+                <div class="blog-text" ng-repeat="paragraph in paragraphs">
+                    <p class="text"> {{ paragraph }} </p>
+                </div>
+            </header>
+
+            <footer>
+
+            </footer>
+        </article>
     </body>
 </html>
