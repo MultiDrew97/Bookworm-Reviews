@@ -61,7 +61,7 @@ app.delete('/api/blogposts/:bookTitle:bookAuthor', function(req, res) {
     });
 });
 
-app.get('/blogs/*', (req, res) => {
+app.get('/blogs/?blogID=:id', (req, res) => {
     const fileName = req.url.substring(req.url.lastIndexOf('/') + 1, req.url.length)
     console.log(`${__dirname}\\public\\blogs\\${fileName}`);
     if (fileExists(fileName)) {

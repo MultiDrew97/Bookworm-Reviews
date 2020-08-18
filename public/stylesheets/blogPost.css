@@ -1,3 +1,8 @@
 .book-title, .book-author, .blog-pub-date {
     text-align: right;
 }
+
+.blog-text {
+    max-width: 900px;
+    margin: 0 10%;
+}

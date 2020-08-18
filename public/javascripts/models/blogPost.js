@@ -12,9 +12,8 @@ let currentDate = new Date(Date.now());*/
 
 module.exports = mongoose.model('BlogPost', {
     id: {
-        // TODO: Change to proper data type when found
-      type: integer,
-      default: 0
+        type: mongoose.ObjectId,
+        default: 0
     },
     bookTitle: {
         type: String,
@@ -37,7 +36,7 @@ module.exports = mongoose.model('BlogPost', {
         default: `${__dirname}\\public\\blogs\\`
     },
     blogPubDate: {
-        type: Date,
+        type: mongoose.Date,
         default: Date.now()
     },
     blogAuthor: {
