@@ -9,8 +9,7 @@
             <header>
                 <h1 class="book-title"> {{ bookTitle }}</h1>
                 <h2 class="book-author"> {{ bookAuthor }}</h2>
-                <h4 class="blog-pub-date"> {{ blogPubDate | date }}</h4>
-                <h4 class="book-pub-date"> {{ bookPubDate | date }}</h4>
+                <h6 class="blog-pub-date"> {{ blogPubDate | date }}</h6>
                 <div class="blog-text" ng-repeat="paragraph in paragraphs">
                     <p class="text"> {{ paragraph }} </p>
                 </div>

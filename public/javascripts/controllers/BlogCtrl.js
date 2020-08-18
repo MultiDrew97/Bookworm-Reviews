@@ -2,11 +2,11 @@ angular.module('BlogCtrl', []).controller('BlogController', function($scope, $ro
     let blog = `./blogs/${$routeParams.blogID}.txt`
 
     // TODO: Figure out how to read from a file on the server to get the blog post text
-    fs.readFile(blog, 'utf-8', (err, data) => {
+    /*fs.readFile(blog, 'utf-8', (err, data) => {
         if (err) throw err;
 
         $scope.blogText = data;
-    })
+    })*/
 
     /*var file = XMLHttpRequest();
     file.open('GET', blog, false);
