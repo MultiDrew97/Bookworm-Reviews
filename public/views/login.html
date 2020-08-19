@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Bookworm Reviews">
+    <head>
+        <link rel="stylesheet" href="../stylesheets/login.css"/>
+        <title>Bookworm Reviews</title>
+
+        <!--<script src="../javascripts/utils/db.js"></script>-->
+    </head>
+    <body ng-app="Bookworm Reviews" ng-controller="LoginController">
+        <form id="login-form" method="post" action="">
+            <label for="email">Email Address</label>
+            <!-- TODO: Get the email pattern from the email ministry program
+                    actually might not be needed since there is an email input type -->
+            <input type="email" name="Email" id="email" required>
+
+            <label for="Password">Password</label>
+            <input type="password" name="Password" id="Password" required>
+
+            <input type="submit" name="Submit" id="Submit" value="Submit"/>
+        </form>
+    </body>
+</html>

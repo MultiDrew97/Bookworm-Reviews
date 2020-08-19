@@ -15,15 +15,22 @@ angular.module('appRoutes', [])
 
             // Review Request that page will use the RequestCtrl
             .when('/review_request', {
-                templateUrl: 'views/review_request.html',
+                templateUrl: 'views/request.html',
                 controller: 'RequestController'
             })
 
             // TODO: Learn how to pass the blogID to the url and retrieve it in the path
-            // Blog post
+            // Blog Post
             .when('/blogs', {
                 templateUrl: 'views/blogPost.html',
                 controller: 'BlogController'
+            })
+
+            // TODO: Figure out how to handle login information to allow only her to post
+            // Login Page
+            .when('/login', {
+                templateUrl: '/views/login.html',
+                controller: 'LoginController'
             })
 
             // Not Found 404 error page

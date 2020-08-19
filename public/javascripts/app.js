@@ -1,9 +1,11 @@
 angular.module('Bookworm Reviews',
-    ['ngRoute',
-             'appRoutes',
-             'MainCtrl',
-             'AboutCtrl',
-             'BlogCtrl',
-             'RequestCtrl'
-             ]
+    [
+        'ngRoute',
+        'appRoutes',
+        'MainCtrl',
+        'AboutCtrl',
+        'BlogCtrl',
+        'RequestCtrl',
+        'LoginCtrl'
+    ]
 );
