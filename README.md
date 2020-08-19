@@ -10,4 +10,3 @@ The technologies planned for this project is using the MEAN stack (MongoDB, Expr
 # Contributors
 The current contributors as of June 10, 2020 include:
  * Andrew Randle-Warren
- * Conner McBride
