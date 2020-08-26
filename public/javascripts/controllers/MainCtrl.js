@@ -26,6 +26,10 @@ angular.module('MainCtrl', []).controller('MainController', function($scope) {
     }
     ];
 
+    $scope.$on('$viewContentLoaded', function() {
+        // TODO: Use this to load all of the blogPosts after figuring out how to use the db class
+    })
+
     // TODO: style the blog posts to be in a 3+ column format and beautify the blog postings
 
     // TODO: figure out how to pass on the blogID from this page to the blog display page and how to get
