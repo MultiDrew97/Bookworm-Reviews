@@ -11,36 +11,16 @@ let currentDate = new Date(Date.now());*/
 */
 
 module.exports = mongoose.model('BlogPost', {
-    id: {
-        type: mongoose.ObjectId,
-        default: 0
+    _id: mongoose.Types.ObjectId,
+    bookTitle: String,
+    bookAuthor: String,
+    description: String,
+    blogLocation: String,
+    blogPubDate: Date,
+    blogAuthor: String,
+    votes: {
+        up: Number,
+        down: Number
     },
-    bookTitle: {
-        type: String,
-        default: ''
-    },
-    bookAuthor: {
-        type: String,
-        default: ''
-    },
-    bookPubDate: {
-        type: String,
-        default: 'Jan 1, 1970'
-    },
-    description: {
-      type: String,
-      default: ''
-    },
-    blogLocation: {
-        type: String,
-        default: `${__dirname}\\public\\blogs\\`
-    },
-    blogPubDate: {
-        type: mongoose.Date,
-        default: Date.now()
-    },
-    blogAuthor: {
-        type: String,
-        default: 'Jasmine Taylor'
-    }
+    comments: [{body: String, date: Date, votes: {up: Number, down: Number}}]
 }, 'BlogPosts')

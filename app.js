@@ -1,14 +1,23 @@
 // Modules ==================================
 
 const express = require('express');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const path = require('path');
 const File = require('file');
 const FileReader = require('filereader');
+const mongoose = require('mongoose');
+const DB = require('./api/utils/db');
+const jsBase64 = require('js-base64');
+const BlogPost = require('./public/javascripts/models/blogPost');
+
 const app = express();
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+const db = new DB('arandlemiller97', 'JasmineLove2697');
 
 // set the port
 // const port = 3000;
@@ -17,22 +26,27 @@ app.use(bodyParser.json());
 
 // routes are defined within the appRoutes.js file. I don't need the routes that are located within this file
 
-// sample api route
-// grab the student model I created
-let BlogPost = require('./public/javascripts/models/blogPost');
-app.get('/api/blogposts', (req, res) => {
-    // use mongoose to get all students in the database
-    BlogPost.find((err, blogPosts) => {
-        // if there is an error retrieving, send the error.
-        // nothing after res.send(err) will execute
-        if (err)
-            res.send(err);
+/*
+    API Routes for the Blog Posts themselves
+ */
+app.get('/api/blogs', async (req, res) => {
+    if (req.headers.authorization) {
 
-        res.json(blogPosts); // return all students in JSON format
-    });
+        // TODO: Add authorization on all of the API paths
+        res.send(jsBase64.decode(req.headers.authorization.split(" ")[1]));
+
+        /*if (req.query.id) {
+            res.json(await db.getBlog(req.query.id));
+        } else {
+            res.json(await db.getBlogs());
+        }*/
+    } else {
+        res.statusCode = 401;
+        res.send("unauthorized");
+    }
 });
 
-app.post('/api/blogposts/send', function(req, res) {
+app.post('/api/blogs/send', function(req, res) {
     let blogPost = new BlogPost(); //create a new instance of the blog post model
 
     // set the blog information (comes from the request)
@@ -50,18 +64,11 @@ app.post('/api/blogposts/send', function(req, res) {
     });
 });
 
-app.delete('/api/blogposts/:bookTitle:bookAuthor', function(req, res) {
-    BlogPost.remove({
-        bookTitle: req.params.bookTitle,
-        bookAuthor: req.params.bookAuthor
-    }, (err) => {
-        if(err)
-            res.send(err);
-        res.json({statusCode: 200});
-    });
+app.delete('/api/blogs', function(req, res) {
+    db.deleteBlog(req.body.id, res);
 });
 
-app.get('/blogs/?blogID=:id', (req, res) => {
+/*app.get('/blogs/?blogID=:id', (req, res) => {
     const fileName = req.url.substring(req.url.lastIndexOf('/') + 1, req.url.length)
     console.log(`${__dirname}\\public\\blogs\\${fileName}`);
     if (fileExists(fileName)) {
@@ -75,42 +82,33 @@ app.get('/blogs/?blogID=:id', (req, res) => {
     } else {
         res.send("Sorry, that blog post doesn't exist. Please contact the system administrator.")
     }
+});*/
+
+// Request Related API Methods
+
+app.get('/api/requests', async (req, res) => {
+    if (req.query.id){
+        res.json(await db.getRequest(req.query.id));
+    } else {
+        res.json(await db.getRequests());
+    }
 });
 
-// Request Related methods
+app.post('/api/requests', async (req, res) => {
+    db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, '');
+    res.statusCode = 201;
+    res.send("Request created");
+})
 
-let Request = require('./public/javascripts/models/request')
+app.delete('/api/requests', async (req, res) => {
+    await db.deleteRequest(req.body.id, res);
 
-app.get('/api/requests', (req, res) => {
-    Request.find((err, requests) => {
-        // if there is an error retrieving, send the error.
-        // nothing after res.send(err) will execute
-        if (err)
-            res.send(err);
-
-        res.json(requests); // return all students in JSON format
-    });
-});
-
-app.post('/api/requests/send', (req, res) => {
-    let request = new Request();
-    request.bookTitle = req.body.BookTitle;
-    request.bookAuthor = req.body.Author;
-    request.requester.Name = req.body.Name || 'Anon';
-    request.requester.Email = req.body.Email;
-    request.extra = req.body.Extra;
-
-    res.json({request: request});
-
-    request.save((err) => {
-        if (err)
-            res.send(err);
-        //res.json({message: 'Request submitted successfully!'});
-    });
-});
+    /*res.status(200)
+    res.send("Request deleted");*/
+})
 
 const fileExists = (fileName) => {
-    //`$__dirname}\\public\\blogs\\${fileName}`
+    //`${__dirname}\\public\\blogs\\${fileName}`
     console.WriteLine(fileName)
     return true;
 }

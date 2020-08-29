@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const dateConverter = require('../utils/dateConverter');
-let currentDate = new Date(Date.now());
 
 /* This will be needed when adding a blog post to the database. This will allow the date to be
      retrieved from the current time. The Date constructor auto converts the Date.now() miliseconds to the current date.
@@ -11,31 +10,12 @@ let currentDate = new Date(Date.now());
 */
 
 module.exports = mongoose.model('Request', {
-    bookTitle: {
-        type: String,
-        default: ''
-    },
-    bookAuthor: {
-        type: String,
-        default: ''
-    },
+    bookTitle: String,
+    bookAuthor: String,
     requester: {
-        Name: {
-            type: String,
-            default: ''
-        },
-        Email: {
-            type: String,
-            default: ''
-        }
+        name: String,
+        email: String
     },
-    extra: {
-        type: String,
-        default: ''
-    },
-    requestDate: {
-        type: String,
-        // converts the current date to a string
-        default: `${dateConverter.dateToString(currentDate.getMonth(), currentDate.getDate(), currentDate.getFullYear())}`
-    }
+    extra: String,
+    requestDate: Date
 }, 'Requests')
