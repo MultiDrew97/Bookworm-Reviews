@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fs = require('fs');
+/*const fs = require('fs');*/
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
 // TODO: Figure out how to handle the credentials for API and website
@@ -41,7 +41,7 @@ app.get('/api/blogs', async (req, res) => {
         let username = auth.split(":")[0];
         let password = auth.split(":")[1];
 
-        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+        if (checkAuth(username, password)) {
             if (req.query.id) {
                 res.json(await db.getBlog(req.query.id));
             } else {
@@ -63,7 +63,7 @@ app.post('/api/blogs', async (req, res) => {
         let username = auth.split(":")[0];
         let password = auth.split(":")[1];
 
-        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+        if (checkAuth(username, password)) {
             db.addBlog(req.body.bookTitle, req.body.bookAuthor, res);
         } else {
             res.status(401);
@@ -81,7 +81,7 @@ app.delete('/api/blogs', function(req, res) {
         let username = auth.split(":")[0];
         let password = auth.split(":")[1];
 
-        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+        if (checkAuth(username, password)) {
             db.deleteBlog(req.body.id, res);
         } else {
             res.status(401);
@@ -101,7 +101,7 @@ app.get('/api/requests', async (req, res) => {
         let username = auth.split(':')[1];
         let password = auth.split(':')[0];
 
-        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+        if (checkAuth(username, password)) {
             if (req.query.id) {
                 res.json(await db.getRequest(req.query.id));
             } else {
@@ -123,7 +123,7 @@ app.post('/api/requests', async (req, res) => {
         let username = auth.split(':')[1];
         let password = auth.split(':')[0];
 
-        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+        if (checkAuth(username, password)) {
             db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, '', res);
         } else {
             res.status(401);
@@ -141,7 +141,7 @@ app.delete('/api/requests', async (req, res) => {
         let username = auth.split(':')[1];
         let password = auth.split(':')[0];
 
-        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+        if (checkAuth(username, password)) {
             await db.deleteRequest(req.body.id, res);
         } else {
             res.status(401);
@@ -153,10 +153,46 @@ app.delete('/api/requests', async (req, res) => {
     }
 })
 
-const fileExists = (fileName) => {
-    //`${__dirname}\\public\\blogs\\${fileName}`
-    console.WriteLine(fileName)
-    return true;
+app.post('/api/login', (req, res) => {
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
+        let username = auth.split(':')[1];
+        let password = auth.split(':')[0];
+
+        if (checkAuth(username, password)) {
+            res.send(checkLogin(req.body.username, req.body.password));
+        } else {
+            res.status(401);
+            res.send();
+        }
+    } else {
+        res.status(401);
+        res.send();
+    }
+})
+
+/*
+    Helper functions
+ */
+
+const checkAuth = (username, password) => {
+    for (let user = 0; user < env.apiAuth.length; user++) {
+        if (username === env.apiAuth[user].username && password === env.apiAuth[user].password) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+const checkLogin = (username, password) => {
+    for (let login = 0; login < env.logins.length; login++) {
+        if (username === env.logins[login].username && password === env.logins[login].password) {
+            return true
+        }
+    }
+
+    return false;
 }
 
 module.exports = app;
