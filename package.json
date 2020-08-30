@@ -7,16 +7,14 @@
   },
   "dependencies": {
     "body-parser": "^1.19.0",
-    "bower": "~1.8.8",
-    "cookie-parser": "~1.4.4",
+    "bower": "^1.8.8",
+    "cookie-parser": "^1.4.5",
     "debug": "^4.1.1",
     "express": "^4.17.1",
-    "file": "^0.2.2",
-    "mongoose": "^5.9.25",
+    "fs": "^0.0.1-security",
+    "mongoose": "^5.10.2",
     "morgan": "^1.10.0",
     "js-base64": "^3.4.5"
   },
-  "devDependencies": {
-    "filereader": "^0.10.3"
-  }
+  "license": "LICENSE"
 }

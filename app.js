@@ -3,12 +3,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const File = require('file');
-const FileReader = require('filereader');
-const mongoose = require('mongoose');
+const fs = require('fs');
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
-const BlogPost = require('./public/javascripts/models/blogPost');
+// TODO: Figure out how to handle the credentials for API and website
+const env = require('./bin/enviroment');
+
+/*const dbCredentials = {username: 'arandlemiller97', password: 'JasmineLove2697'};
+const validCredentials = {username: "admin", password: "password"};*/
 
 const app = express();
 
@@ -16,9 +18,13 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+let db;
 
-const db = new DB('arandlemiller97', 'JasmineLove2697');
-
+try {
+    db = new DB(env.dbCredentials.username, env.dbCredentials.password);
+} catch (err) {
+    console.log(err.message);
+}
 // set the port
 // const port = 3000;
 
@@ -31,80 +37,120 @@ const db = new DB('arandlemiller97', 'JasmineLove2697');
  */
 app.get('/api/blogs', async (req, res) => {
     if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
 
-        // TODO: Add authorization on all of the API paths
-        res.send(jsBase64.decode(req.headers.authorization.split(" ")[1]));
-
-        /*if (req.query.id) {
-            res.json(await db.getBlog(req.query.id));
+        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+            if (req.query.id) {
+                res.json(await db.getBlog(req.query.id));
+            } else {
+                res.json(await db.getBlogs());
+            }
         } else {
-            res.json(await db.getBlogs());
-        }*/
+            res.status(401);
+            res.send();
+        }
     } else {
-        res.statusCode = 401;
-        res.send("unauthorized");
+        res.status(401);
+        res.send();
     }
 });
 
-app.post('/api/blogs/send', function(req, res) {
-    let blogPost = new BlogPost(); //create a new instance of the blog post model
+app.post('/api/blogs', async (req, res) => {
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
 
-    // set the blog information (comes from the request)
-    blogPost.bookTitle = req.body.bookTitle;
-    blogPost.bookAuthor = req.body.bookAuthor;
-    blogPost.bookPublicationDate = req.body.bookPublicationDate;
-    blogPost.blogAuthor = req.body.blogAuthor;
-    blogPost.blogLocation = req.body.blogLocation;
-
-    // save the entry into the collection
-    blogPost.save((err) => {
-        if (err)
-            res.send(err);
-        res.json({message: 'blog post created!'});
-    });
+        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+            db.addBlog(req.body.bookTitle, req.body.bookAuthor, res);
+        } else {
+            res.status(401);
+            res.send();
+        }
+    } else {
+        res.status(401);
+        res.send();
+    }
 });
 
 app.delete('/api/blogs', function(req, res) {
-    db.deleteBlog(req.body.id, res);
-});
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
 
-/*app.get('/blogs/?blogID=:id', (req, res) => {
-    const fileName = req.url.substring(req.url.lastIndexOf('/') + 1, req.url.length)
-    console.log(`${__dirname}\\public\\blogs\\${fileName}`);
-    if (fileExists(fileName)) {
-        let file = new File(`${__dirname}\\public\\blogs\\${fileName}`);
-        let reader = new FileReader();
-        reader.onload = (e) => {
-            let contents = e.target.result;
-            res.send(contents);
+        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+            db.deleteBlog(req.body.id, res);
+        } else {
+            res.status(401);
+            res.send();
         }
-        reader.readAsText(file);
     } else {
-        res.send("Sorry, that blog post doesn't exist. Please contact the system administrator.")
+        res.status(401)
+        res.send();
     }
-});*/
+});
 
 // Request Related API Methods
 
 app.get('/api/requests', async (req, res) => {
-    if (req.query.id){
-        res.json(await db.getRequest(req.query.id));
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
+        let username = auth.split(':')[1];
+        let password = auth.split(':')[0];
+
+        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+            if (req.query.id) {
+                res.json(await db.getRequest(req.query.id));
+            } else {
+                res.json(await db.getRequests());
+            }
+        } else {
+            res.status(401);
+            res.send();
+        }
     } else {
-        res.json(await db.getRequests());
+        res.status(401);
+        res.send();
     }
 });
 
 app.post('/api/requests', async (req, res) => {
-    db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, '');
-    res.statusCode = 201;
-    res.send("Request created");
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
+        let username = auth.split(':')[1];
+        let password = auth.split(':')[0];
+
+        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+            db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, '', res);
+        } else {
+            res.status(401);
+            res.send();
+        }
+    } else {
+        res.status(401);
+        res.send();
+    }
 })
 
 app.delete('/api/requests', async (req, res) => {
-    await db.deleteRequest(req.body.id, res);
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
+        let username = auth.split(':')[1];
+        let password = auth.split(':')[0];
 
-    /*res.status(200)
-    res.send("Request deleted");*/
+        if (username === env.apiAuth.username && password === env.apiAuth.password) {
+            await db.deleteRequest(req.body.id, res);
+        } else {
+            res.status(401);
+            res.send();
+        }
+    } else {
+        res.status(401);
+        res.send();
+    }
 })
 
 const fileExists = (fileName) => {

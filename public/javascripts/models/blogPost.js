@@ -15,7 +15,6 @@ module.exports = mongoose.model('BlogPost', {
     bookTitle: String,
     bookAuthor: String,
     description: String,
-    blogLocation: String,
     blogPubDate: Date,
     blogAuthor: String,
     votes: {
