@@ -7,3 +7,29 @@
     margin: 0 10%;
     line-height: 1.5rem;
 }
+
+.container {
+    width: 50%;
+    text-align: center;
+}
+
+#create-comment {
+    max-width: 1000px;
+    /*display: flex;
+    flex-direction: column;*/
+}
+
+#comment-label {
+    text-align: left;
+}
+
+#submit-comment {
+    margin-top: 40px;
+    max-width: 500px;
+    margin-left: 80%;
+    width: 100px;
+}
+
+.create {
+    margin: 10% 20%;
+}

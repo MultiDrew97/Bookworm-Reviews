@@ -18,6 +18,8 @@
         <script src="./javascripts/controllers/AboutCtrl.js"></script>
         <script src="./javascripts/controllers/RequestCtrl.js"></script>
         <script src="./javascripts/controllers/BlogCtrl.js"></script>
+        <!--<script src="./javascripts/controllers/LoginCtrl.js"></script>-->
+        <script src="./javascripts/services/BlogPostSrv.js"></script>
         <script src="./javascripts/appRoutes.js"></script>
         <script src="./javascripts/app.js"></script>
     </head>
@@ -29,9 +31,9 @@
                     <li><a ng-href="/" id="home-link"><img src="./images/home_logo.png" alt="Bookworm Reviews"/></a></li>
                     <li><a ng-href="/about" id="about-link">About Me</a></li>
                     <li><a ng-href="/review_request" id="request-link">Request Review</a></li>
-                    <li id="search-bar"><label for="SearchBox">Search</label>
-                        <input type="text" id="SearchBox">
-                        <input type="submit" id="SearchButton" value="Search"></li>
+                    <li><a ng-href="/admin" id="login-link">login</a></li>
+                    <li id="search-bar"><label>Search <input type="text" id="search-box"></label>
+                        <input type="submit" id="search-button" value="Search"></li>
                 </ul>
             </nav>
         </header>
@@ -45,7 +47,7 @@
         </div>
 
         <footer id="bottom-of-page">
-            <p><small>&copy;2020 Book Worm's Reviews</small></p>
+            <p><small>&copy 2020 Book Worm's Reviews</small></p>
             <p><small>Icons made by <a href="https://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></small></p>
             <a href="#top" id="topLink">Back to Top</a>
         </footer>

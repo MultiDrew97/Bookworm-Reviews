@@ -65,10 +65,14 @@ a:hover {
     border-radius: 10%;
 }
 
-.container {
-    width: 75%;
-}
-
 #search-bar {
     display: inline-flex;
+    width: 400px;
+    position: sticky;
+    left: 1500px;
+    padding: 0;
+}
+
+#search-button {
+    margin: 0 0 9px 10px;
 }

@@ -10,8 +10,8 @@
                 <h1 class="book-title"> {{ bookTitle }}</h1>
                 <h2 class="book-author"> {{ bookAuthor }}</h2>
                 <h6 class="blog-pub-date"> {{ blogPubDate | date }}</h6>
-                <div class="blog-text">
-                    <p class="text" ng-repeat="paragraph in paragraphs"> {{ paragraph }} </p>
+                <div id="blog-text">
+                    <p class="text" ng-repeat="paragraph in paragraphs"> & {{ paragraph }} </p>
                 </div>
             </header>
 
@@ -19,5 +19,19 @@
 
             </footer>
         </article>
+
+        <section id="comments-section">
+            <div class="create comment-container">
+                <form id="create-comment" ng-model="commentForm">
+                    <label id="comment-label" for="comment-text">Leave a comment:</label>
+                    <textarea name="comment" id="comment-text"></textarea>
+                    <input type="button" id="submit-comment" value="post"  ng-click="submitComment()"/>
+                </form>
+            </div>
+
+            <div class="comment-container comments">
+
+            </div>
+        </section>
     </body>
 </html>

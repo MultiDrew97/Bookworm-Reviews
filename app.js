@@ -58,6 +58,37 @@ app.get('/api/blogs', async (req, res) => {
     }
 });
 
+app.get('/api/blogpost', (req, res) => {
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
+
+        if (checkAuth(username, password)) {
+
+            const path = `./api/blogs/${req.query.id}.txt`;
+            if (fs.access(path, (err)=> {
+                if (err) {
+                    res.status(404);
+                    res.send();
+                }
+
+                fs.readFile(path,(err, data) => {
+                    res.send(data);
+                })
+            })) {
+
+            }
+        } else {
+            res.status(401);
+            res.send();
+        }
+    } else {
+        res.status(401);
+        res.send();
+    }
+})
+
 app.post('/api/blogs', async (req, res) => {
     if (req.headers.authorization) {
         let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
