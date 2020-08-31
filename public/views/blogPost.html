@@ -20,11 +20,13 @@
             </footer>
         </article>
 
+        <hr>
+
         <section id="comments-section">
             <div class="create comment-container">
-                <form id="create-comment" ng-model="commentForm">
+                <form id="create-comment">
                     <label id="comment-label" for="comment-text">Leave a comment:</label>
-                    <textarea name="comment" id="comment-text"></textarea>
+                    <textarea ng-model="comment" name="comment" id="comment-text"></textarea>
                     <input type="button" id="submit-comment" value="post"  ng-click="submitComment()"/>
                 </form>
             </div>

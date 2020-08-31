@@ -10,13 +10,9 @@ angular.module('BlogCtrl', []).controller('BlogController', function($scope, $ro
     $scope.bookAuthor = 'Jillian Larkin';
 
 
-
     $scope.submitComment = () => {
         const xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
-        $scope.commentForm = new FormData(document.querySelector('#create-comment'));
-
-        console.debug($scope.commentForm);
     }
     /*$scope.paragraphs = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer at sem pretium erat suscipit pulvinar. Nam tincidunt imperdiet mi, quis tristique massa accumsan vel. Curabitur fringilla venenatis porta. Proin posuere dictum scelerisque. Nulla vel viverra quam. Phasellus vestibulum mauris consequat lorem maximus cursus. Vivamus placerat posuere ipsum, vel viverra dolor sagittis sed. Suspendisse malesuada neque vitae velit facilisis venenatis. Nulla facilisi. Integer semper varius mi, ut viverra purus blandit eu. Curabitur tempor semper nisl, ac egestas augue efficitur vitae. Nulla ac lorem at turpis ultricies posuere et non est. Donec molestie neque metus, at fermentum eros consectetur sit amet. Phasellus consectetur nibh eu mauris dictum sodales. Maecenas diam nunc, euismod et nisi vitae, gravida feugiat ante.',
         'Donec a ornare neque. Aliquam tincidunt metus eget sem gravida porttitor. Fusce nec rhoncus risus. Quisque fermentum vitae dui quis pretium. Sed sodales laoreet turpis eu volutpat. Aliquam scelerisque suscipit turpis, laoreet efficitur leo. Vivamus blandit odio et tellus pellentesque malesuada. Donec placerat sapien metus, in dictum augue eleifend at. Nam finibus purus non egestas rutrum. Phasellus id imperdiet erat. Donec mattis rhoncus massa non imperdiet. Nam urna odio, iaculis non nulla sed, facilisis porta eros. Proin elementum nulla at nisi aliquet, sed interdum magna consequat. Suspendisse bibendum, neque ut posuere sodales, nibh lorem maximus diam, at vehicula diam tortor at libero. Etiam semper tellus ac metus vehicula, sed dictum tellus euismod.',

@@ -2,9 +2,9 @@
     text-align: right;
 }
 
-.blog-text {
+#blog-text {
     max-width: 900px;
-    margin: 0 10%;
+    margin: 10%;
     line-height: 1.5rem;
 }
 
@@ -15,8 +15,8 @@
 
 #create-comment {
     max-width: 1000px;
-    /*display: flex;
-    flex-direction: column;*/
+    display: flex;
+    flex-direction: column;
 }
 
 #comment-label {
@@ -24,12 +24,31 @@
 }
 
 #submit-comment {
-    margin-top: 40px;
+    margin: 20px 0 5px 85%;
     max-width: 500px;
-    margin-left: 80%;
     width: 100px;
+    font-size: 16px;
 }
 
 .create {
-    margin: 10% 20%;
+    margin: 5% 20%;
+    padding: 1%;
+    border: black 1px solid;
+}
+
+.comment-container {
+    max-width: 100%;
+}
+
+#comment-text {
+    overflow: auto;
+    resize: none;
+    height: 250px;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border-top: 5px solid rgba(0,0,0,.1);
+    width: 60%;
 }

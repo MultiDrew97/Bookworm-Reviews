@@ -149,8 +149,8 @@ app.post('/api/comment', (req, res) => {
 app.get('/api/requests', async (req, res) => {
     if (req.headers.authorization) {
         let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
-        let username = auth.split(':')[1];
-        let password = auth.split(':')[0];
+        let username = auth.split(':')[0];
+        let password = auth.split(':')[1];
 
         if (checkAuth(username, password)) {
             if (req.query.id) {
@@ -171,8 +171,8 @@ app.get('/api/requests', async (req, res) => {
 app.post('/api/requests', async (req, res) => {
     if (req.headers.authorization) {
         let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
-        let username = auth.split(':')[1];
-        let password = auth.split(':')[0];
+        let username = auth.split(':')[0];
+        let password = auth.split(':')[1];
 
         if (checkAuth(username, password)) {
             db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, '', res);
@@ -189,8 +189,8 @@ app.post('/api/requests', async (req, res) => {
 app.delete('/api/requests', async (req, res) => {
     if (req.headers.authorization) {
         let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
-        let username = auth.split(':')[1];
-        let password = auth.split(':')[0];
+        let username = auth.split(':')[0];
+        let password = auth.split(':')[1];
 
         if (checkAuth(username, password)) {
             await db.deleteRequest(req.body.id, res);
@@ -211,8 +211,8 @@ app.delete('/api/requests', async (req, res) => {
 app.post('/api/login', (req, res) => {
     if (req.headers.authorization) {
         let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
-        let username = auth.split(':')[1];
-        let password = auth.split(':')[0];
+        let username = auth.split(':')[0];
+        let password = auth.split(':')[1];
 
         if (checkAuth(username, password)) {
             res.send(checkLogin(req.body.username, req.body.password));
