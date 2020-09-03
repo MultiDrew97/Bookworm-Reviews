@@ -83,6 +83,20 @@ DB.prototype.deleteBlog = (id, res) => {
     });
 }
 
+DB.prototype.addComment = (id, commentInfo, res) => {
+    BlogPost.findById(id, (err, blog) => {
+        if (err) {
+            res.status(404);
+            res.send();
+            return;
+        }
+
+        // TODO: Might have to save the "document" for the comment to actually be registered
+        blog.comments.push(commentInfo);
+        res.status()
+    });
+}
+
 DB.prototype.getRequests = () => {
     return Request.find({});
 }

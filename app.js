@@ -3,9 +3,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-/*const fs = require('fs');*/
+const fs = require('fs');
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
+
 // TODO: Figure out how to handle the credentials for API and website
 const env = require('./bin/enviroment');
 
@@ -93,6 +94,25 @@ app.delete('/api/blogs', function(req, res) {
     }
 });
 
+app.post('/api/comment', (req, res) => {
+    // Add a comment to the blog post
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
+
+        if (checkAuth(username, password)) {
+            db.addComment(req.query.id, req.body, res);
+        } else {
+            res.status(401);
+            res.send();
+        }
+    } else {
+        res.status(401)
+        res.send();
+    }
+})
+
 // Request Related API Methods
 
 app.get('/api/requests', async (req, res) => {
@@ -152,6 +172,10 @@ app.delete('/api/requests', async (req, res) => {
         res.send();
     }
 })
+
+/*
+    Login handler for the website
+ */
 
 app.post('/api/login', (req, res) => {
     if (req.headers.authorization) {
