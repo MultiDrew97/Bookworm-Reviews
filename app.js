@@ -6,7 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
-
+const logger = require('morgan');
 // TODO: Figure out how to handle the credentials for API and website
 const env = require('./bin/enviroment');
 
@@ -15,7 +15,7 @@ const validCredentials = {username: "admin", password: "password"};*/
 
 const app = express();
 
-
+app.use(logger('dev'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -203,10 +203,6 @@ app.delete('/api/requests', async (req, res) => {
         res.send();
     }
 })
-
-/*
-    Login handler for the website
- */
 
 app.post('/api/login', (req, res) => {
     if (req.headers.authorization) {

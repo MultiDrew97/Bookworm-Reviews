@@ -1,10 +1,15 @@
 angular.module('appRoutes', [])
-    .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) => {
+    .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider, $routeParams) => {
         $routeProvider
             // home page
             .when('/', {
                 templateUrl: 'views/home.html',
-                controller: 'MainController'
+                controller: 'MainController',
+                resolve: {
+                    blogs: function($blogPost) {
+                        return $blogPost.get();
+                    }
+                }
             })
 
             // About page that will use the AboutCtrl
@@ -23,7 +28,15 @@ angular.module('appRoutes', [])
             // Blog post
             .when('/blogs', {
                 templateUrl: 'views/blogPost.html',
-                controller: 'BlogController'
+                controller: 'BlogController',
+                resolve: {
+                    blogInfo: function ($blogPost, $route) {
+                        return $blogPost.find(/*$route.current.params.blogID*/'5ee252bd61b4cd0924026465');
+                    },
+                    blogText: function ($blogPost, $route) {
+                        return $blogPost.getText($route.current.params.blogID);
+                    }
+                }
             })
 
             // Not Found 404 error page

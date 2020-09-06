@@ -83,18 +83,25 @@ DB.prototype.deleteBlog = (id, res) => {
     });
 }
 
-DB.prototype.addComment = (id, commentInfo, res) => {
-    BlogPost.findById(id, (err, blog) => {
-        if (err) {
-            res.status(404);
-            res.send();
-            return;
-        }
+DB.prototype.addComment = (blogID, commenter, body) => {
+    let comment = new Comment();
 
-        // TODO: Might have to save the "document" for the comment to actually be registered
-        blog.comments.push(commentInfo);
-        res.status()
-    });
+    comment.blogID = blogID;
+    comment.commenter = commenter;
+    comment.body = body;
+
+    console.debug(comment._id);
+
+    BlogPost.findById(blogID, (blog)=> {
+        blog.comment.push(comment._id);
+        blog.save(err => {
+            if (err) {
+                return 400;
+            }
+
+            return 201;
+        })
+    })
 }
 
 DB.prototype.getRequests = () => {

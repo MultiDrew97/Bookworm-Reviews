@@ -52,3 +52,30 @@ hr {
     border-top: 5px solid rgba(0,0,0,.1);
     width: 60%;
 }
+
+.votes {
+    font-size: .5rem;
+    line-height: 1rem;
+    display: inline-block;
+}
+
+.comment-info {
+    display: inline;
+    flex-direction: row;
+}
+
+.comment-date {
+    text-align: right;
+}
+
+.comment {
+    max-width: 100%;
+    width: 50%;
+    margin: 10% auto;
+    padding: 0% 0% 10% 0%;
+    border-top: black 1px solid;
+}
+
+.commenter {
+
+}

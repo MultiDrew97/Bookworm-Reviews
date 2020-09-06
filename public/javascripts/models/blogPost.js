@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const comment = require('./comment.js');
 /*const dateConverter = require('../utils/dateConverter');
 let currentDate = new Date(Date.now());*/
 
@@ -15,11 +16,20 @@ module.exports = mongoose.model('BlogPost', {
     bookTitle: String,
     bookAuthor: String,
     description: String,
-    blogPubDate: Date,
+    blogPubDate: {
+        type: Date,
+        default: Date.now()
+    },
     blogAuthor: String,
     votes: {
-        up: Number,
-        down: Number
+        up: {
+            type: Number,
+            default: 0
+        },
+        down: {
+            type: Number,
+            default: 0
+        }
     },
-    comments: [{body: String, date: Date, votes: {up: Number, down: Number}}]
+    comments: [mongoose.Types.ObjectId]
 }, 'BlogPosts')

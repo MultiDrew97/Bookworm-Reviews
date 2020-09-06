@@ -1,6 +1,6 @@
 angular
     .module('Bookworm Reviews',
         [
-            'ngRoute', 'appRoutes', 'MainCtrl', 'AboutCtrl', 'BlogCtrl', 'RequestCtrl',
-            'BlogPostSrv'
+            'ngRoute', 'ngCookies', 'appRoutes', 'MainCtrl', 'AboutCtrl', 'BlogCtrl', 'RequestCtrl',
+            'BlogPostSrv', 'EnvSrv', 'CryptoSrv'
         ]);
