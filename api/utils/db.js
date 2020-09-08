@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const fs = require('fs').promises;
 const BlogPost = require('../../public/javascripts/models/blogPost');
 const Request = require('../../public/javascripts/models/request');
+const Comment = require('../../public/javascripts/models/comment');
+const env = require('../../bin/enviroment');
 
 function DB(username, password, desiredPage = "Bookworm-Reviews", options = { useNewUrlParser: true, useUnifiedTopology: true }) {
     // connect to the mongoDB using the supplied credentials and defaulting to the Bookworm-Reviews table
@@ -15,11 +18,7 @@ function DB(username, password, desiredPage = "Bookworm-Reviews", options = { us
 }
 
 DB.prototype.getBlogs = () => {
-    return BlogPost.find({}, (err) => {
-        if (err) {
-            console.log(err);
-        }
-    });
+    return BlogPost.find({});
     // return the array of JSON 'pages' from the database query
     /*BlogPost.findOne({'bookTitle': 'Vixen'}, 'bookTitle bookAuthor', (err, blogPosts) => {
         if (err)
@@ -37,7 +36,7 @@ DB.prototype.findBlogs = (criteria) => {
     return BlogPost.find(criteria);
 }
 
-DB.prototype.addBlog = (bookTitle, bookAuthor, blogAuthor = "Jasmine Taylor", res) => {
+DB.prototype.addBlog = (blog) => {
     /*
         Add a new blog post to the database
 
@@ -50,58 +49,59 @@ DB.prototype.addBlog = (bookTitle, bookAuthor, blogAuthor = "Jasmine Taylor", re
 
     let newBlog = new BlogPost();
 
-    newBlog.bookTitle = bookTitle;
-    newBlog.bookAuthor = bookAuthor;
-    newBlog.blogAuthor = blogAuthor;
-    newBlog.blogPubDate = Date.now();
-    newBlog.votes.up = 0;
-    newBlog.votes.down = 0;
+    newBlog.bookTitle = blog.bookTitle;
+    newBlog.bookAuthor = blog.bookAuthor;
+    newBlog.blogAuthor = blog.blogAuthor;
     newBlog.comments = [];
 
-    newBlog.save((err) => {
-        if (err) {
-            res.status(420);
-            res.send();
-            return;
+    return newBlog.save(/*(saveErr) => {
+        if (saveErr) {
+            console.debug(saveErr);
+            return 400;
         }
-
-        res.status(201);
-        res.send();
-    })
-}
-
-DB.prototype.deleteBlog = (id, res) => {
-    BlogPost.findByIdAndRemove(id, function(err, doc) {
-        if (err || doc === null) {
-            res.statusCode = 400;
-            res.send('Failed to delete the request');
-            return;
-        }
-
-        res.statusCode = 200;
-        res.send('Request successfully removed');
-    });
-}
-
-DB.prototype.addComment = (blogID, commenter, body) => {
-    let comment = new Comment();
-
-    comment.blogID = blogID;
-    comment.commenter = commenter;
-    comment.body = body;
-
-    console.debug(comment._id);
-
-    BlogPost.findById(blogID, (blog)=> {
-        blog.comment.push(comment._id);
-        blog.save(err => {
-            if (err) {
+        fs.writeFile(`${blogLocation}/${newBlog._id}.txt`, blog.blogText, {flag: 'w'}, (writeErr) => {
+            if (writeErr) {
+                console.debug(writeErr);
                 return 400;
             }
 
             return 201;
         })
-    })
+    }*/);
+}
+
+DB.prototype.deleteBlog = (id) => {
+    return BlogPost.findByIdAndRemove(id);
+}
+
+DB.prototype.addComment = (comment) => {
+    let newComment = new Comment();
+
+    newComment.blogID = comment.blogID;
+    newComment.commenter = comment.commenter;
+    newComment.body = comment.body;
+
+    return newComment.save(/*err => {
+        if (err) {
+            console.debug('error occurred saving:', err)
+            return 400
+        }
+
+        BlogPost.findById(newComment.blogID, (err, blog) => {
+            if (err)
+                return 404;
+
+            blog.comments.push(newComment._id);
+
+            blog.save(err => {
+                if (err)
+                    return 400;
+
+                return 201
+            })
+        })
+        return 201
+    }*/);
 }
 
 DB.prototype.getRequests = () => {
@@ -112,7 +112,7 @@ DB.prototype.getRequest = (id) => {
     return Request.findById(id);
 }
 
-DB.prototype.addRequest = (bookTitle, bookAuthor, reqName, reqEmail, extra, res) => {
+DB.prototype.addRequest = (bookTitle, bookAuthor, reqName, reqEmail, extra = '') => {
     let newRequest = new Request()
 
     newRequest.bookTitle = bookTitle;
@@ -121,29 +121,25 @@ DB.prototype.addRequest = (bookTitle, bookAuthor, reqName, reqEmail, extra, res)
     newRequest.extra = extra;
     newRequest.requestDate = Date.now();
 
-    newRequest.save((err) => {
+    return newRequest.save(/*(err) => {
         if (err) {
-            res.status(400);
-            res.send();
-            return;
+            /!*res.status(400);
+            res.send();*!/
+            return 400;
         }
 
-        res.status(201);
-        res.send();
-    });
+        return 201
+        /!*res.status(201);
+        res.send();*!/
+    }*/);
 }
 
-DB.prototype.deleteRequest = (id, res) => {
-    Request.findByIdAndRemove(id, (err, doc) => {
-        if (err || doc === null) {
-            res.statusCode = 400;
-            res.send('Failed to delete the request');
-            return;
-        }
+DB.prototype.deleteRequest = (id) => {
+    return Request.findByIdAndRemove(id);
+}
 
-        res.statusCode = 200;
-        res.send('Request successfully removed');
-    });
+DB.prototype.saveCover =  (id, coverFileBuffer) => {
+    return fs.writeFile(`${env.coverLocation}/${id}.png`, coverFileBuffer, 'binary');
 }
 
 

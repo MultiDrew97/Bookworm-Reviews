@@ -12,7 +12,6 @@ let currentDate = new Date(Date.now());*/
 */
 
 module.exports = mongoose.model('BlogPost', {
-    _id: mongoose.Types.ObjectId,
     bookTitle: String,
     bookAuthor: String,
     description: String,

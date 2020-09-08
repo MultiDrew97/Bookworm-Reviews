@@ -12,9 +12,9 @@
     "debug": "^4.1.1",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
+    "js-base64": "^3.4.5",
     "mongoose": "^5.10.2",
-    "morgan": "^1.10.0",
-    "js-base64": "^3.4.5"
+    "morgan": "^1.10.0"
   },
   "license": "LICENSE"
 }

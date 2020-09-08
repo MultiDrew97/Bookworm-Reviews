@@ -1,5 +1,7 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope) {
-    $scope.blogs = [{
+angular.module('MainCtrl', []).controller('MainController', function($scope, blogs) {
+    console.debug(blogs.data);
+    $scope.blogs = blogs.data;
+    /*$scope.blogs = [{
         blogID: 123,
         bookTitle: "Vixen",
         bookAuthor: "Jillian Larkin",
@@ -24,7 +26,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope) {
         bookPubDate: Date.now(),
         description: "Sample description of the book"
     }
-    ];
+    ];*/
 
     $scope.$on('$viewContentLoaded', function() {
         // TODO: Use this to load all of the blogPosts after figuring out how to use the db class

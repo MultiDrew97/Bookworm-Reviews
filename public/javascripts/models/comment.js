@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
 module.exports = mongoose.model('Comment', {
-    _id: mongoose.Types.ObjectId,
-    blogID: mongoose.Types.ObjectId,
-    commenter: {
-        type: String,
-        default: 'Anonymous'
-    },
+    blogID: mongoose.ObjectId,
+    commenter: String,
     body: String,
     date: {
         type: Date,

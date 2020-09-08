@@ -5,13 +5,17 @@
         <title>Bookworm Reviews</title>
     </head>
     <body ng-app="Bookworm Reviews" ng-controller="BlogController">
+    <form id="form" enctype="multipart/form-data">
+        <input type="file" id="coverSelect" name="coverFile" ng-model="coverFile" ng-change="selectFile"/>
+        <input type="button" id="send" ng-click="sendImage()" value="Send" />
+    </form>
         <article class="container">
             <header>
                 <h1 class="book-title"> {{ blog.bookTitle }}</h1>
                 <h2 class="book-author"> {{ blog.bookAuthor }}</h2>
                 <h6 class="blog-pub-date"> {{ blog.blogPublicationDate | date }}</h6>
                 <div id="blog-text">
-                    <p class="text" ng-repeat="paragraph in paragraphs track by $index"><span style="margin-left: 40px;"></span> {{ paragraph }} </p>
+                    <p class="text" ng-repeat="paragraph in ctrl.paragraphs"><span style="margin-left: 40px;"></span> {{ paragraph }} </p>
                 </div>
             </header>
 
@@ -27,9 +31,9 @@
                 <form id="create-comment">
                     <label id="comment-label" for="comment-text">Leave a comment:</label>
                     <label>
-                        Name: <input type="text" id="commenter" ng-model="comment.commenter" placeholder="Anonymous"/>
+                        Name: <input type="text" id="commenter" ng-model="commentation.commenter" placeholder="Anonymous"/>
                     </label>
-                    <textarea ng-model="comment.body" name="comment" id="comment-text"></textarea>
+                    <textarea ng-model="commentation.body" name="comment" id="comment-text"></textarea>
                     <input type="button" id="submit-comment" value="post"  ng-click="submitComment()"/>
                 </form>
             </div>

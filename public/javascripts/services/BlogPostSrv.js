@@ -25,8 +25,8 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
                 authorization: `Basic ${apiAuth}`
             }});
         },
-        comment : function(id, comment) {
-            return $http.post(`/api/comments?id=${id}`, comment, {headers: {
+        comment : function(comment) {
+            return $http.post(`/api/comment`, comment, {headers: {
                 withCredentials: true,
                 authorization: `Basic ${apiAuth}`
             }})
