@@ -1,5 +1,4 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, blogs) {
-    console.debug(blogs.data);
     $scope.blogs = blogs.data;
     /*$scope.blogs = [{
         blogID: 123,
@@ -29,13 +28,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, blo
     ];*/
 
     $scope.$on('$viewContentLoaded', function() {
-        // TODO: Use this to load all of the blogPosts after figuring out how to use the db class
+        // TODO: Use this to load any data needed
     })
-
-    // TODO: style the blog posts to be in a 3+ column format and beautify the blog postings
-
-    // TODO: figure out how to pass on the blogID from this page to the blog display page and how to get
-    //      text from a file based on information from the post db entry
 });
 
 /*

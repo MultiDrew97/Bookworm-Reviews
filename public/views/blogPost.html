@@ -5,17 +5,13 @@
         <title>Bookworm Reviews</title>
     </head>
     <body ng-app="Bookworm Reviews" ng-controller="BlogController">
-    <form id="form" enctype="multipart/form-data">
-        <input type="file" id="coverSelect" name="coverFile" ng-model="coverFile" ng-change="selectFile"/>
-        <input type="button" id="send" ng-click="sendImage()" value="Send" />
-    </form>
         <article class="container">
             <header>
                 <h1 class="book-title"> {{ blog.bookTitle }}</h1>
                 <h2 class="book-author"> {{ blog.bookAuthor }}</h2>
-                <h6 class="blog-pub-date"> {{ blog.blogPublicationDate | date }}</h6>
+                <h6 class="blog-pub-date"> {{ blog.blogPubDate | date }}</h6>
                 <div id="blog-text">
-                    <p class="text" ng-repeat="paragraph in ctrl.paragraphs"><span style="margin-left: 40px;"></span> {{ paragraph }} </p>
+                    <p class="text" ng-repeat="paragraph in paragraphs"><!--TODO: Use for indents<span style="margin-left: 40px;"></span>--> {{ paragraph }} </p>
                 </div>
             </header>
 

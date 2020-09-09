@@ -4,4 +4,6 @@ angular.module('RequestCtrl', []).controller('RequestController', function($scop
 
     // TODO: Determine how to denote the page was submitted
     // TODO: Determine how to tell the user their request was received successfully
+
+    // TODO: https://www.w3schools.com/howto/howto_css_modals.asp use this to create a modal box for submitting a request
 });

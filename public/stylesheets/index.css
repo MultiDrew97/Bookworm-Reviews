@@ -5,6 +5,10 @@ nav ul li {
     width: 50%;
 }
 
+nav ul li a:hover {
+    text-decoration: none;
+}
+
 #profile-picture {
     height: 5%;
     width: 3%;

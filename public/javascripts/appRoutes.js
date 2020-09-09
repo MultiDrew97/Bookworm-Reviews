@@ -34,7 +34,7 @@ angular.module('appRoutes', [])
                         return $blogPost.find(/*$route.current.params.blogID*/'5ee252bd61b4cd0924026465');
                     },
                     blogText: function ($blogPost, $route) {
-                        return $blogPost.getText($route.current.params.blogID);
+                        return $blogPost.getText($route.current.params.id);
                     }
                 }
             })

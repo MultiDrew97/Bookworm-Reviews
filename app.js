@@ -7,7 +7,6 @@ const fs = require('fs');
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
 const logger = require('morgan');
-const fileUpload = require('express-fileupload');
 const multer = require('multer');
 const upload = multer();
 // TODO: Figure out how to handle the credentials for API and website
@@ -19,7 +18,7 @@ const validCredentials = {username: "admin", password: "password"};*/
 
 const app = express();
 
-app.use(logger('dev', {}));
+/*app.use(logger('dev', {}));*/
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
