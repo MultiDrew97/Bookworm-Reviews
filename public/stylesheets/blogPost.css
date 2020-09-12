@@ -53,19 +53,24 @@ hr {
     width: 60%;
 }
 
+.comment-votes {
+    text-align: right;
+}
+
 .votes {
-    font-size: .5rem;
+    font-size: 1rem;
     line-height: 1rem;
     display: inline-block;
+    margin-top: 30%;
 }
 
 .comment-info {
-    display: inline;
-    flex-direction: row;
+    display: flex;
 }
 
 .comment-date {
     text-align: right;
+    width: 50%;
 }
 
 .comment {
@@ -77,5 +82,17 @@ hr {
 }
 
 .commenter {
+    width: 50%;
+}
 
+.comment-text {
+    margin-left: 1%;
+}
+
+.up-votes {
+    margin-right: 5%;
+}
+
+.comment-votes {
+    text-align: right;
 }

@@ -2,9 +2,17 @@ angular.module('BlogCtrl', []).controller('BlogController', function(blogInfo, b
     const username = 'admin';
     const password = 'password';
     const apiAuth = $crypto.encode(`${$env.apiAuth.username}:${$env.apiAuth.password}`);
-    // TODO: Figure out how to read from a file on the server to get the blog post text
+    // TODO: Finish styling the blog post page
     $scope.blog = blogInfo.data;
     $scope.paragraphs = blogText.data.split('\n\n');
+    $scope.comments = [];
+
+    for (let i = 0; i < $scope.blog.comments.length; i++) {
+        $blogPost.getComment($scope.blog.comments[i]).then(resolve => {
+            console.debug(`Comment ${i + 1}:`, resolve.data);
+            $scope.comments.push(resolve.data);
+        })
+    }
 
     /*$scope.bookTitle = 'Vixen';
     $scope.blogPubDate = Date.now();
@@ -41,35 +49,17 @@ angular.module('BlogCtrl', []).controller('BlogController', function(blogInfo, b
                 down: 0
             }
         }*/
-        $route.reload();
-        /*$scope.commentation.blogID = $scope.blog._id;
+
+        $scope.commentation.blogID = $scope.blog._id;
         $scope.commentation.commenter = $scope.commentation.commenter || 'Anonymous';
 
-        $blogPost.comment($scope.commentation);*/
+        $blogPost.comment($scope.commentation).then(resolve => {
+            console.log(resolve);
+            $route.reload();
+        });
     }
 
-    //  TODO: Move this to the blog creation page when created
-    /*document.querySelector('#coverSelect').addEventListener('change', function(event) {
-        $scope.coverFile = event.target.files[0];
-    })
-
-    $scope.sendImage = function() {
-        const data = new FormData();
-        data.append('coverFile', $scope.coverFile, 'CoverFile.png');
-
-        const xhr = new XMLHttpRequest();
-        xhr.addEventListener('readystatechange', function() {
-            if (this.readyState === 4) {
-                console.log(this.responseText);
-            }
-        })
-        xhr.open('PUT', `/api/cover?id=${$routeParams.blogID}`);
-        xhr.setRequestHeader('Authorization', `Basic ${apiAuth}`);
-        xhr.send(data);
-    }*/
-
-
     $scope.$on('$viewContentLoaded', function() {
-        // TODO: Place any loading here
+
     })
 });

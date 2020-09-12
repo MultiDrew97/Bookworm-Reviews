@@ -49,13 +49,21 @@ app.get('/api/blogs', async (req, res) => {
         if (utils.checkAuth(username, password)) {
             if (req.query.id) {
                 db.getBlog(req.query.id).then(blog => {
-                    console.debug('Resolve:', blog);
-                    res.send(blog);
+                    console.debug(blog)
+                    if (blog) {
+                        res.send(blog);
+                    } else {
+                        res.sendStatus(404);
+                    }
                 });
             } else {
                 db.getBlogs().then(blogs => {
                     console.debug('Resolve:', blogs);
-                    res.send(blogs);
+                    if (blogs) {
+                        res.send(blogs);
+                    } else {
+                        res.sendStatus(404);
+                    }
                 });
             }
         } else {
@@ -143,6 +151,31 @@ app.delete('/api/blogs', async (req, res) => {
     }
 });
 
+app.get('/api/comment', (req, res) => {
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
+
+        if (utils.checkAuth(username, password)) {
+            db.getComment(req.query.id).then(comment => {
+                if (comment) {
+                    res.send(comment);
+                } else {
+                    res.sendStatus(404);
+                }
+            }, reject => {
+                console.debug(reject);
+                res.sendStatus(404);
+            })
+        } else {
+            res.sendStatus(401);
+        }
+    } else {
+        res.sendStatus(401)
+    }
+});
+
 app.post('/api/comment', async (req, res) => {
     // Add a comment to the blog post
     if (req.headers.authorization) {
@@ -155,10 +188,13 @@ app.post('/api/comment', async (req, res) => {
                 console.log('Comment ID:', comment._id);
 
                 db.getBlog(req.body.blogID).then(blog => {
-                    console.log('Find Blog when commenting Resolve:', blog);
                     blog.comments.push(comment._id);
-                    console.log(blog.comments);
-                    res.sendStatus(201);
+                    blog.save(err => {
+                        if (err)
+                            res.sendStatus(400);
+
+                        res.sendStatus(201);
+                    });
                 }, reject => {
                     console.debug(reject);
                     res.sendStatus(404);

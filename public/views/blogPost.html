@@ -35,7 +35,7 @@
             </div>
 
             <div class="comment-container" id="comments">
-                <article class="comment" ng-repeat="comment in comments">
+                <article class="comment" ng-repeat="comment in comments | orderBy: 'date' : true">
                     <header class="comment-info">
                         <p class="commenter">{{ comment.commenter }}</p>
                         <p class="comment-date"> {{ comment.date | date }}</p>

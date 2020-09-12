@@ -74,6 +74,10 @@ DB.prototype.deleteBlog = (id) => {
     return BlogPost.findByIdAndRemove(id);
 }
 
+DB.prototype.getComment = (id) => {
+    return Comment.findById(id);
+}
+
 DB.prototype.addComment = (comment) => {
     let newComment = new Comment();
 
