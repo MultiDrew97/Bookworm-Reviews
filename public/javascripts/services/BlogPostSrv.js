@@ -38,6 +38,14 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
                     authorization: `Basic ${apiAuth}`
                 }
             })
+        },
+        getComment: function(id) {
+            return $http.get(`/api/comment?id=${id}`, {
+                headers: {
+                    withCredentials: true,
+                    authorization: `Basic ${apiAuth}`
+                }
+            })
         }
     }
 });
