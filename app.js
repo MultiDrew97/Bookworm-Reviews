@@ -12,17 +12,19 @@ const upload = multer();
 // TODO: Figure out how to handle the credentials for API and website
 const env = require('./bin/enviroment');
 const utils = require('./api/utils/utils');
-
-/*const dbCredentials = {username: 'arandlemiller97', password: 'JasmineLove2697'};
-const validCredentials = {username: "admin", password: "password"};*/
+const accessLog = fs.createWriteStream(path.join(__dirname, '/node_access.log'), {flags: 'a'});
+const errorLog = fs.createWriteStream(path.join(__dirname, '/node_error.log'), {flags: 'a'});
+process.stdout.pipe(accessLog);
+process.stderr.pipe(errorLog);
 
 const app = express();
 
-/*app.use(logger('dev', {}));*/
+app.use(logger('dev', {}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(upload.any());
+
 let db;
 
 try {
@@ -49,12 +51,10 @@ app.get('/api/blogs', async (req, res) => {
         if (utils.checkAuth(username, password)) {
             if (req.query.id) {
                 db.getBlog(req.query.id).then(blog => {
-                    console.debug('Resolve:', blog);
                     res.send(blog);
                 });
             } else {
                 db.getBlogs().then(blogs => {
-                    console.debug('Resolve:', blogs);
                     res.send(blogs);
                 });
             }
@@ -108,7 +108,8 @@ app.post('/api/blogs', async (req, res) => {
                         res.sendStatus(400);
                     }
 
-                    res.sendStatus(201);
+                    res.status(201);
+                    res.send({newID: blog._id});
                 })
             }, reject => {
                 console.debug(reject);
@@ -192,7 +193,7 @@ app.get('/api/requests', async (req, res) => {
                     res.sendStatus(404);
                 });
             } else {
-                let response = await db.getRequests().then(success => {
+                db.getRequests().then(success => {
                     res.send(success);
                 }, failure => {
                     console.debug(failure);
@@ -215,7 +216,6 @@ app.post('/api/requests', async (req, res) => {
 
         if (utils.checkAuth(username, password)) {
             db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, req.body.extra).then(success => {
-                console.debug(success);
                 res.sendStatus(201);
             }, failure => {
                 console.debug(failure);

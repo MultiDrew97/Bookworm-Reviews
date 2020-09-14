@@ -46,6 +46,20 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
                     authorization: `Basic ${apiAuth}`
                 }
             })
+        },
+        uploadCover: function(id, image) {
+            const data = new FormData();
+            data.append('coverFile', image, 'CoverFile.png');
+
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener('readystatechange', function() {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+                }
+            })
+            xhr.open('PUT', `/api/cover?id=${id}`);
+            xhr.setRequestHeader('Authorization', `Basic ${apiAuth}`);
+            xhr.send(data);
         }
     }
 });

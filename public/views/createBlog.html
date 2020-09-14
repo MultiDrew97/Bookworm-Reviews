@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Bookworm Reviews">
+    <head>
+        <meta charset="UTF-8">
+        <title>Bookworm Reviews</title>
+
+        <link rel="stylesheet" href="../stylesheets/create.css" />
+    </head>
+
+    <body ng-app="Bookworm Reviews" ng-controller="CreateController">
+        <h1 id="title">Create a new Post</h1><br />
+        <main class="container">
+            <form id="createForm" ng-submit="createPost()">
+                <section id="blogInfo">
+                    <section class="labelInputPair">
+                        <label for="bookTitle">Book Title:</label>
+                        <input type="text" placeholder="Book Title" id="bookTitle" ng-model="blogPost.bookTitle" required>
+                    </section>
+
+                    <section class="labelInputPair">
+                        <label for="bookAuthor">Book Author:</label>
+                        <input type="text" placeholder="Book Author" id="bookAuthor" ng-model="blogPost.bookAuthor" required>
+                    </section>
+
+                    <section class="labelInputPair">
+                        <label for="coverSelect">Book Cover:</label>
+                        <input type="file" accept="image/png, image/jpeg" id="coverSelect" required />
+                    </section>
+
+                    <section class="labelInputPair">
+                        <label for="pubDate">Book Published Date:</label>
+                        <input type="date" id="pubDate" ng-model="blogPost.pubDate" required />
+                    </section>
+                </section>
+
+                <section class="text">
+                    <label for="blogText">Blog Text:</label>
+                    <textarea id="blogText" cols="40" rows="20" ng-model="blogPost.blogText" required></textarea>
+                </section>
+                <input type="submit" id="create" value="Submit" />
+            </form>
+        </main>
+    </body>
+</html>

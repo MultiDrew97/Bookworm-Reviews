@@ -1,0 +1,52 @@
+.container {
+    min-width: 70%;
+    max-width: 90%;
+}
+
+#title {
+    text-align: center;
+}
+
+#createForm {
+    display: inline-flex;
+    flex-direction: column;
+    margin: 5% 8% 0% 8%;
+    width: 90%
+}
+
+#createForm label {
+    padding-top: 10%;
+}
+
+#blogText {
+    max-width: 90%;
+    width: auto;
+    margin: 0 10% 0 0.5%;
+    resize: vertical;
+}
+
+#blogInfo {
+    display: inline-flex;
+    flex-direction: row;
+    min-width: 50%;
+    width: auto;
+}
+
+#create {
+    max-width: 10%;
+    margin-left: 75%;
+    margin-top: 3%
+}
+
+.labelInputPair {
+    display: inline-flex;
+    flex-direction: column;
+    margin-right: 5%;
+    flex-basis: content;
+}
+
+.text {
+    margin: 0 2% 0 2%;
+    display: flex;
+    flex-direction: column;
+}

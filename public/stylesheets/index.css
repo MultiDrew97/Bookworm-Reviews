@@ -1,11 +1,15 @@
-nav ul li {
+nav {
     position: sticky;
     display: inline;
-    padding: 10px;
-    width: 50%;
+    padding: 5px;
+    width: 100%;
 }
 
-nav ul li a:hover {
+nav a {
+    margin: 1%;
+}
+
+nav a:hover {
     text-decoration: none;
 }
 

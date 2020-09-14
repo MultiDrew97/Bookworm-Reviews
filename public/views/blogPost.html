@@ -25,12 +25,12 @@
         <section id="comments-section">
             <div class="create comment-container">
                 <form id="create-comment">
-                    <label id="comment-label" for="comment-text">Leave a comment:</label>
                     <label>
                         Name: <input type="text" id="commenter" ng-model="commentation.commenter" placeholder="Anonymous"/>
                     </label>
-                    <textarea ng-model="commentation.body" name="comment" id="comment-text"></textarea>
-                    <input type="button" id="submit-comment" value="post"  ng-click="submitComment()"/>
+                    <label id="comment-label" for="comment-text">Leave a comment:</label>
+                    <textarea ng-model="commentation.body" id="comment-text"></textarea>
+                    <input type="button" id="submit-comment" value="post"  ng-click="submitComment()" />
                 </form>
             </div>
 

@@ -31,12 +31,23 @@ angular.module('appRoutes', [])
                 controller: 'BlogController',
                 resolve: {
                     blogInfo: function ($blogPost, $route) {
-                        return $blogPost.find(/*$route.current.params.blogID*/'5ee252bd61b4cd0924026465');
+                        return $blogPost.find($route.current.params.id);
                     },
                     blogText: function ($blogPost, $route) {
                         return $blogPost.getText($route.current.params.id);
                     }
                 }
+            })
+
+            //Blog Post creationg page
+            .when('/admin/create', {
+                templateUrl: 'views/createBlog.html',
+                controller: 'CreateController'/*,
+                resolve: {
+                    credentials : function($cookies) {
+                        return $cookies.get('credentials')
+                    }
+                }*/
             })
 
             // Not Found 404 error page
