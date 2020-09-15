@@ -17,5 +17,8 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2"
   },
-  "license": "LICENSE"
+  "license": "LICENSE",
+  "devDependencies": {
+    "winston": "^3.3.3"
+  }
 }

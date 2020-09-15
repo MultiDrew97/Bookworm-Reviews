@@ -6,31 +6,47 @@ const path = require('path');
 const fs = require('fs');
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
-const logger = require('morgan');
+const morgan = require('morgan');
 const multer = require('multer');
 const upload = multer();
 // TODO: Figure out how to handle the credentials for API and website
 const env = require('./bin/enviroment');
 const utils = require('./api/utils/utils');
-const accessLog = fs.createWriteStream(path.join(__dirname, '/node_access.log'), {flags: 'a'});
-const errorLog = fs.createWriteStream(path.join(__dirname, '/node_error.log'), {flags: 'a'});
-process.stdout.pipe(accessLog);
-process.stderr.pipe(errorLog);
+
+const logStream = fs.createWriteStream(path.join(__dirname, './logs/bookworm_reviews.log'), {flags: 'a'});
+/*const errorLog = fs.createWriteStream(path.join(__dirname, '../logs/node_error.log'), {flags: 'a'});
+
+(function() {
+    let origLog = console.log;
+    console.log = function(message) {
+        origLog(message)
+        accessLog.write(message);
+    }
+
+    let origErr = console.error;
+    console.error = function(error) {
+        origErr(error);
+        errorLog.write(error);
+    }
+})();*/
 
 const app = express();
 
-app.use(logger('dev', {}));
+app.use(morgan('tiny', {
+    stream: logStream
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(upload.any());
+
 
 let db;
 
 try {
     db = new DB(env.dbCredentials.username, env.dbCredentials.password);
 } catch (err) {
-    console.log(err.message);
+    console.error(err);
 }
 // set the port
 // const port = 3000;
@@ -77,6 +93,7 @@ app.get('/api/blogpost', (req, res) => {
             const path = `${env.blogLocation}/${req.query.id}.txt`;
             if (fs.access(path, (err)=> {
                 if (err) {
+                    console.error(err);
                     res.sendStatus(404);
                 }
 
@@ -104,7 +121,7 @@ app.post('/api/blogs', async (req, res) => {
             db.addBlog(req.body).then(blog => {
                 fs.writeFile(`${env.blogLocation}/${blog._id}.txt`, req.body.blogText, {flag: 'w'}, (writeErr) => {
                     if (writeErr) {
-                        console.debug(writeErr);
+                        console.error(writeErr);
                         res.sendStatus(400);
                     }
 
@@ -112,7 +129,7 @@ app.post('/api/blogs', async (req, res) => {
                     res.send({newID: blog._id});
                 })
             }, reject => {
-                console.debug(reject);
+                console.error(reject);
                 res.sendStatus(400);
             })
         } else {
@@ -133,7 +150,7 @@ app.delete('/api/blogs', async (req, res) => {
             db.deleteBlog(req.body.id).then(() => {
                 res.sendStatus(200);
             }, reject => {
-                console.debug(reject);
+                console.error(reject);
                 res.sendStatus(400);
             });
         } else {
@@ -161,11 +178,11 @@ app.post('/api/comment', async (req, res) => {
                     console.log(blog.comments);
                     res.sendStatus(201);
                 }, reject => {
-                    console.debug(reject);
+                    console.error(reject);
                     res.sendStatus(404);
                 })
             }, reject => {
-                console.debug(reject);
+                console.error(reject);
                 res.sendStatus(400);
             });
         } else {
@@ -189,14 +206,14 @@ app.get('/api/requests', async (req, res) => {
                 db.getRequest(req.query.id).then(success => {
                     res.send(success);
                 }, failure => {
-                    console.debug(failure);
+                    console.error(failure);
                     res.sendStatus(404);
                 });
             } else {
                 db.getRequests().then(success => {
                     res.send(success);
                 }, failure => {
-                    console.debug(failure);
+                    console.error(failure);
                     res.sendStatus(404);
                 })
             }
@@ -215,10 +232,10 @@ app.post('/api/requests', async (req, res) => {
         let password = auth.split(':')[1];
 
         if (utils.checkAuth(username, password)) {
-            db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, req.body.extra).then(success => {
+            db.addRequest(req.body.bookTitle, req.body.bookAuthor, req.body.name, req.body.email, req.body.extra).then(() => {
                 res.sendStatus(201);
             }, failure => {
-                console.debug(failure);
+                console.error(failure);
                 res.sendStatus(400);
             });
         } else {
@@ -236,10 +253,10 @@ app.delete('/api/requests', async (req, res) => {
         let password = auth.split(':')[1];
 
         if (utils.checkAuth(username, password)) {
-            db.deleteRequest(req.body.id).then(success => {
+            db.deleteRequest(req.body.id).then(() => {
                 res.sendStatus(200);
             }, failure => {
-                console.debug(failure);
+                console.error(failure);
                 res.sendStatus(404);
             });
         } else {
@@ -273,10 +290,10 @@ app.put('/api/cover', async (req, res) => {
         let password = auth.split(':')[1];
 
         if (utils.checkAuth(username, password)) {
-            db.saveCover(req.query.id, req.files[0].buffer).then(resolve => {
+            db.saveCover(req.query.id, req.files[0].buffer).then(() => {
                 res.sendStatus(201);
             }, reject => {
-                console.debug(reject);
+                console.error(reject);
                 res.sendStatus(400);
             });
         } else {
