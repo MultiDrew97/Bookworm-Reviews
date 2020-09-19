@@ -1,5 +1,25 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, blogs) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, blogs, $login) {
     $scope.blogs = blogs.data;
+    const loginLink = document.querySelector('#login-link');
+    const ngClick = document.createAttribute('ng-click');
+    ngClick.value = 'loginPopup()';
+
+    window.addEventListener('beforeunload', e => {
+        if (!$cookies.get('remember')) {
+            $login.logout();
+        }
+    })
+
+    const checkInterval = setInterval(() => {
+        if ($cookies.get('credentials')) {
+            console.debug('credentials found')
+            clearInterval(checkInterval);
+            loginLink.innerText = 'Logout';
+            loginLink.attributes.getNamedItem('href').value = '/logout'
+            loginLink.attributes.getNamedItem('ng-href').value = '/logout'
+            loginLink.attributes.removeNamedItem('ng-click')
+        }
+    }, 100);
     /*$scope.blogs = [{
         blogID: 123,
         bookTitle: "Vixen",
@@ -29,7 +49,33 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, blo
 
     $scope.$on('$viewContentLoaded', function() {
         // TODO: Use this to load any data needed
+        if ($cookies.get('credentials')) {
+            loginLink.innerText = 'Logout';
+            loginLink.attributes.getNamedItem('ng-href').value = '/logout'
+            loginLink.attributes.getNamedItem('ng-click').value = ''
+        } else {
+            loginLink.innerText = 'Login'
+            loginLink.attributes.getNamedItem('ng-href').value = '{{ $location.path }}'
+            loginLink.attributes.getNamedItem('href').value = '{{ $location.path }}'
+            if (!loginLink.attributes.getNamedItem('ng-click'))
+                loginLink.attributes.setNamedItem(ngClick);
+        }
     })
+
+    $scope.loginPopup = function($mdDialog) {
+        if(loginLink.innerText === 'Login') {
+            $mdDialog.show({
+                controller: 'LoginController',
+                templateUrl: 'views/login.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true
+            })
+                .then(result => {
+                }, err => {
+                })
+        }
+    }
 });
 
 /*

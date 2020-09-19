@@ -39,7 +39,7 @@ angular.module('appRoutes', [])
                 }
             })
 
-            //Blog Post creationg page
+            //Blog Post creation page
             .when('/admin/create', {
                 templateUrl: 'views/createBlog.html',
                 controller: 'CreateController'/*,

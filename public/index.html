@@ -7,12 +7,17 @@
 
         <!-- CSS -->
         <link rel="stylesheet" href="./libs/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="./libs/angular-material/layouts/angular-material.layouts.ie_fixes.css" />
+        <link rel="stylesheet" href="./libs/angular-material/angular-material.min.css" />
         <link rel="stylesheet" href="./stylesheets/index.css" />
 
         <!-- JS -->
         <script src="./libs/angular/angular.min.js"></script>
         <script src="./libs/angular-route/angular-route.min.js"></script>
         <script src="./libs/angular-cookies/angular-cookies.min.js"></script>
+        <script src="./libs/angular-material/angular-material.min.js"></script>
+        <script src="./libs/angular-animate/angular-animate.min.js"></script>
+        <script src="./libs/angular-aria/angular-aria.min.js"></script>
 
         <!-- ANGULAR CUSTOM -->
         <script src="./javascripts/controllers/MainCtrl.js"></script>
@@ -20,11 +25,11 @@
         <script src="./javascripts/controllers/RequestCtrl.js"></script>
         <script src="./javascripts/controllers/BlogCtrl.js"></script>
         <script src="./javascripts/controllers/CreateCtrl.js"></script>
-        <!--<script src="./javascripts/controllers/LoginCtrl.js"></script>-->
+        <script src="./javascripts/controllers/LoginCtrl.js"></script>
         <script src="./javascripts/services/BlogPostSrv.js"></script>
         <script src="./javascripts/services/EnvSrv.js"></script>
         <script src="./javascripts/services/CryptoSrv.js"></script>
-        <!--<script src="./javascripts/providers/BlogPrv.js"></script>-->
+        <script src="./javascripts/services/LoginSrv.js"></script>
         <script src="./javascripts/appRoutes.js"></script>
         <script src="./javascripts/app.js"></script>
     </head>
@@ -35,7 +40,7 @@
                 <a ng-href="/" id="home-link"><img src="./images/home_logo.png" alt="Bookworm Reviews"/></a>
                 <a ng-href="/about" id="about-link">About Me</a>
                 <a ng-href="/review_request" id="request-link">Request Review</a>
-                <a ng-href="/admin/login" id="login-link">login</a>
+                <a ng-click="loginPopup()" ng-href="" id="login-link">Login</a>
                 <span id="search-bar"><label>Search <input type="text" id="search-box"></label>
                     <input type="submit" id="search-button" value="Search"></span>
             </nav>

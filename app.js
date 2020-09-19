@@ -267,7 +267,7 @@ app.delete('/api/requests', async (req, res) => {
     }
 })
 
-app.post('/api/login', (req, res) => {
+app.get('/api/login', (req, res) => {
     if (req.headers.authorization) {
         let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
         let username = auth.split(':')[0];
