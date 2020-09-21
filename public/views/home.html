@@ -3,11 +3,9 @@
     <head>
         <link rel="stylesheet" href="../stylesheets/home.css"/>
         <title>Bookworm Reviews</title>
-
-        <!--<script src="../javascripts/utils/db.js"></script>-->
     </head>
-    <body ng-app="Bookworm Reviews" ng-controller="MainController">
-        <main class="container">
+    <body ng-app="Bookworm Reviews" ng-controller="HomeController">
+        <main class="blogs-container">
             <div class="blog-posts" ng-repeat="blog in blogs">
                 <article class="blog-entry">
                     <img class="book-cover" ng-src="../images/covers/{{ blog._id }}.png" alt="{{ blog.bookTitle }} Book Cover"/>

@@ -8,7 +8,7 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
             }});
         },
         find : function(id){
-            return $http.get('/api/blogs?id=' + id, {headers: {
+            return $http.get(`/api/blogs?id=${id}`, {headers: {
                 withCredentials: true,
                 authorization : `Basic ${apiAuth}`
             }});

@@ -4,22 +4,30 @@
         <meta charset="UTF-8">
         <base href="/"/>
         <title>Bookworm Reviews</title>
+
+        <link rel="stylesheet" href="../stylesheets/login.css" />
     </head>
     <body ng-controller="LoginController">
-        <form>
-            <label>
-                Username: <input type="email" ng-model="login.username" required>
-            </label>
+        <md-dialog class="loginContainer">
+            <form class="login">
+                <div class="container">
+                    <div class="pair">
+                        <label for="username">Username:</label>
+                        <!--<md-input>--><input type="text" id="username" ng-model="login.username" required><!--</md-input>-->
+                    </div>
 
-            <label>
-                Password: <input type="password" ng-model="login.password" required>
-            </label>
+                    <div class="pair">
+                        <label for="password">Password:</label>
+                        <md-input><input type="password" id="password" ng-model="login.password" required></md-input>
+                    </div>
 
-            <label>
-                Remember Me <input type="checkbox" ng-model="login.remember">
-            </label>
+                    <label>
+                        Remember Me <md-input><input type="checkbox" id="remember" ng-model="login.remember"></md-input>
+                    </label>
 
-            <input type="submit" ng-click="loginUser()" />
-        </form>
+                    <md-input><input type="submit" id="submit" ng-click="loginUser()" value="Login"/></md-input>
+                </div>
+            </form>
+        </md-dialog>
     </body>
 </html>

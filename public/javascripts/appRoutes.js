@@ -1,10 +1,10 @@
 angular.module('appRoutes', [])
-    .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider, $routeParams) => {
+    .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) => {
         $routeProvider
             // home page
             .when('/', {
                 templateUrl: 'views/home.html',
-                controller: 'MainController',
+                controller: 'HomeController',
                 resolve: {
                     blogs: function($blogPost) {
                         return $blogPost.get();
@@ -42,12 +42,12 @@ angular.module('appRoutes', [])
             //Blog Post creation page
             .when('/admin/create', {
                 templateUrl: 'views/createBlog.html',
-                controller: 'CreateController'/*,
+                controller: 'CreateController',
                 resolve: {
                     credentials : function($cookies) {
                         return $cookies.get('credentials')
                     }
-                }*/
+                }
             })
 
             // Not Found 404 error page

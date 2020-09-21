@@ -6,15 +6,30 @@ const path = require('path');
 const fs = require('fs');
 const DB = require('./api/utils/db');
 const jsBase64 = require('js-base64');
-const morgan = require('morgan');
+const logger = require('morgan');
 const multer = require('multer');
 const upload = multer();
 // TODO: Figure out how to handle the credentials for API and website
 const env = require('./bin/enviroment');
 const utils = require('./api/utils/utils');
 
-const logStream = fs.createWriteStream(path.join(__dirname, './logs/bookworm_reviews.log'), {flags: 'a'});
-/*const errorLog = fs.createWriteStream(path.join(__dirname, '../logs/node_error.log'), {flags: 'a'});
+const logStream = fs.createWriteStream(path.join(__dirname, 'logs/bookworm_reviews.log'), {flags: 'a'});
+let temp;
+
+try {
+    temp = fs.opendirSync(path.join(__dirname, 'logs'));
+    console.log('Directory already exists');
+} catch (ex) {
+    fs.mkdirSync(path.join(__dirname, 'logs'));
+    try {
+        temp = fs.opendirSync(path.join(__dirname, 'logs'));
+    } catch (ex) {
+        throw Error('Could not create the directory');
+    }
+} finally {
+    temp.closeSync();
+}
+/*const errorLog = fs.createWriteStream(path.join(__dirname, 'logs/node_error.log'), {flags: 'a'});
 
 (function() {
     let origLog = console.log;
@@ -32,7 +47,7 @@ const logStream = fs.createWriteStream(path.join(__dirname, './logs/bookworm_rev
 
 const app = express();
 
-app.use(morgan('tiny', {
+app.use(logger('tiny', {
     stream: logStream
 }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -274,7 +289,14 @@ app.get('/api/login', (req, res) => {
         let password = auth.split(':')[1];
 
         if (utils.checkAuth(username, password)) {
-            res.sendStatus(utils.checkLogin(req.body.username, req.body.password));
+            let user = utils.checkLogin(jsBase64.decode(req.query.p0));
+
+            if (user) {
+                res.status(200);
+                res.send(user);
+            } else {
+                res.sendStatus(401);
+            }
         } else {
             res.sendStatus(401);
         }

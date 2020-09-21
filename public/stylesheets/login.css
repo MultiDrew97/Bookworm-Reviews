@@ -1,0 +1,41 @@
+.login {
+    display: inline-flex;
+    flex-direction: column;
+    border: 2px #f1f1f1 solid;
+    margin: 4% 10% 0 25%;
+    max-width: 700px
+}
+
+md-dialog.md-transition-in {
+
+}
+
+.container {
+    display: inline-flex;
+    flex-direction: column;
+    padding: 7%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 10%;
+    width: 50%;
+    height: 75%;
+}
+
+.loginContainer {
+    width: 50%;
+    height: 70%;
+}
+
+#submit {
+    width: 80%;
+    background: limegreen;
+}
+
+.pair {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+#login-link {
+    visibility: hidden;
+}
