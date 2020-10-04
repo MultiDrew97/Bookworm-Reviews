@@ -6,7 +6,9 @@
         <title>Bookworm Reviews</title>
     </head>
     <body>
-        <h1>You have been signed out, {{ name }}</h1>
-        <h4>This window will close and you will be redirected in <span id="timer">{{ timer }}</span> seconds...</h4>
+        <md-dialog class="logout">
+            <h1>You have been signed out, {{ name }}</h1>
+            <h4>This window will close and you will be redirected in <span id="timer">{{ timer }}</span> seconds...</h4>
+        </md-dialog>
     </body>
 </html>

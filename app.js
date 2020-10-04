@@ -176,6 +176,35 @@ app.delete('/api/blogs', async (req, res) => {
     }
 });
 
+app.get('/api/blogs/search', (req, res) => {
+    if (req.headers.authorization) {
+        let auth = jsBase64.decode(req.headers.authorization.split(" ")[1]);
+        let username = auth.split(":")[0];
+        let password = auth.split(":")[1];
+
+        if (utils.checkAuth(username, password)) {
+            /*let criteria = req.query.p0;
+            let search = {
+                bookTitle: `/${criteria}/i`,
+                bookAuthor: `/${criteria}/i`
+            }
+            db.findBlogs(search).then((err, blogs) => {
+                if (err)
+                    res.sendStatus(400);
+
+                res.send(blogs)
+            })*/
+
+            console.log(JSON.parse(jsBase64.decode(req.query.p0)));
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(401);
+        }
+    } else {
+        res.sendStatus(401)
+    }
+})
+
 app.post('/api/comment', async (req, res) => {
     // Add a comment to the blog post
     if (req.headers.authorization) {

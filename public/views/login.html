@@ -8,26 +8,30 @@
         <link rel="stylesheet" href="../stylesheets/login.css" />
     </head>
     <body ng-controller="LoginController">
-        <md-dialog class="loginContainer">
-            <form class="login">
+        <md-dialog class="popup-container">
+            <form id="login-form" ng-submit="loginUser()">
                 <div class="container">
-                    <div class="pair">
-                        <label for="username">Username:</label>
-                        <!--<md-input>--><input type="text" id="username" ng-model="login.username" required><!--</md-input>-->
+                    <label for="username" class="inputLabel"><strong>Username:</strong></label>
+                    <md-input><input ng-model="login.username" placeholder="Username" type="text" id="username" required /></md-input>
+
+                    <label for="password" class="inputLabel"><strong>Password:</strong></label>
+                    <md-input><input ng-model="login.password" placeholder="Password" type="password" id="password" required/></md-input>
+
+                    <div class="rememberMe">
+                        <label >
+                            <md-input><input ng-model="login.remember" type="checkbox" id="remember" /> Remember Me</md-input>
+                        </label>
                     </div>
 
-                    <div class="pair">
-                        <label for="password">Password:</label>
-                        <md-input><input type="password" id="password" ng-model="login.password" required></md-input>
-                    </div>
 
-                    <label>
-                        Remember Me <md-input><input type="checkbox" id="remember" ng-model="login.remember"></md-input>
-                    </label>
-
-                    <md-input><input type="submit" id="submit" ng-click="loginUser()" value="Login"/></md-input>
+                    <md-input><input type="submit" id="login" value="Login" /></md-input>
                 </div>
             </form>
+
+            <!--TODO: Figure out how to make a popup to handle forgotten passwords and even the sign-in window-->
+            <div class="forgot-container">
+                <p id="forgot-password"><small><a ng-href="/login/reset">Forgot my password</a></small></p>
+            </div>
         </md-dialog>
     </body>
 </html>

@@ -60,6 +60,14 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
             xhr.open('PUT', `/api/cover?id=${id}`);
             xhr.setRequestHeader('Authorization', `Basic ${apiAuth}`);
             xhr.send(data);
+        },
+        search: function(criteria) {
+            return $http.get(`/api/blogs/search?p0=${$crypto.encode(criteria)}`, {
+                headers: {
+                    withCredentials: true,
+                    authorization: `Basic ${apiAuth}`
+                }
+            })
         }
     }
 });

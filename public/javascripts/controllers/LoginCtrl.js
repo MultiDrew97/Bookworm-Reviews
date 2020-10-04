@@ -1,5 +1,8 @@
-angular.module('LoginCtrl', []).controller('LoginController', function($scope, $cookies, $login, $env, $mdDialog) {
+angular.module('LoginCtrl', []).controller('LoginController', function($scope, $cookies, $login, $route, $env, $mdDialog) {
     /*let loginLink = document.querySelector('#login-link');*/
+
+    $scope.login = {};
+    $scope.remember = false;
 
     $scope.loginUser = function() {
         $login.login($scope.login).then(res => {
@@ -12,8 +15,9 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
                 }
 
                 $cookies.putObject('user', res.data, $env.cookie(exdays));
-
+                $cookies.put('remember', $scope.login.remember, $env.cookie(exdays));
                 $mdDialog.hide();
+                $route.reload();
             } else {
                 alert('Please try again');
             }

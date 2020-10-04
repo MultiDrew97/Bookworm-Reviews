@@ -1,43 +1,29 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $cookies, $location, $login, $mdDialog) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, $route, $cookies, $location, $login, $mdDialog) {
     const loginLink = document.querySelector('#login-link');
-    const ngClick = document.createAttribute('ng-click');
-    ngClick.value = 'loginPopup()';
 
     window.addEventListener('beforeunload', () => {
-        if (!$cookies.get('remember')) {
+        if ($cookies.get('remember') === 'false') {
             $login.logout();
         }
     })
 
-    const checkInterval = setInterval(() => {
-        if ($cookies.get('user')) {
-            console.debug('user found')
-            clearInterval(checkInterval);
-            loginLink.innerText = 'Logout';
-            loginLink.attributes.getNamedItem('href').value = '/logout'
-            loginLink.attributes.getNamedItem('ng-href').value = '/logout'
-            loginLink.attributes.removeNamedItem('ng-click')
-        }
-    }, 100);
-
     $scope.popup = function(ev) {
-        if(loginLink.innerText === 'Login') {
-            $mdDialog.show({
-                controller: 'LoginController',
-                templateUrl: 'views/login.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true
-            })
-        } else if(loginLink.innerText === 'Logout') {
-            $mdDialog.show({
-                controller: 'LogoutController',
-                templateUrl: 'views/logout.html',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: false
-            })
+        let popup = {
+            parent: angular.element(document.body),
+            targetEvent: ev,
+            clickOutsideToClose: true
         }
+
+        if(loginLink.innerText === 'Login') {
+            popup.controller = 'LoginController';
+            popup.templateUrl = 'views/login.html';
+        } else if(loginLink.innerText === 'Logout') {
+            popup.controller = 'LogoutController';
+            popup.templateUrl = 'views/logout.html';
+            popup.clickOutsideToClose = false;
+        }
+
+        $mdDialog.show(popup);
     }
 
     $scope.$on('$viewContentLoaded', function() {
@@ -47,4 +33,22 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $co
             loginLink.innerText = 'Login'
         }
     })
+
+    const checkInterval = setInterval(() => {
+        if ($cookies.get('user')) {
+            console.debug('user found')
+            console.debug($cookies.get('user'));
+            clearInterval(checkInterval);
+            loginLink.innerText = 'Logout';
+        }
+    }, 100);
+
+    $scope.search = function(path, advanced) {
+        $location.path(path).search('advanced', advanced);
+    }
+
+    $scope.changePath = function(path) {
+        $location.path(path);
+        $location.search('advanced', null);
+    }
 })

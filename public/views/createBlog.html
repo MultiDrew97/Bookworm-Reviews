@@ -8,8 +8,8 @@
     </head>
 
     <body ng-app="Bookworm Reviews" ng-controller="CreateController">
-        <h1 id="title">Create a new Post</h1><br />
-        <main class="container">
+        <div ng-if="accountType === 'admin'">
+            <h1 id="title">Create a new Post</h1><br />
             <form id="createForm" ng-submit="createPost()">
                 <section id="blogInfo">
                     <section class="labelInputPair">
@@ -39,6 +39,11 @@
                 </section>
                 <input type="submit" id="create" value="Submit" />
             </form>
-        </main>
+        </div>
+
+        <div ng-if="accountType !== 'admin'" class="denied">
+            <h1>Access Denied</h1>
+            <h3>You do not have permission to access this page. If this is in error, please contact the site administrator.</h3>
+        </div>
     </body>
 </html>

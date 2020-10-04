@@ -1,5 +1,10 @@
 angular.module('appRoutes', [])
-    .config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) => {
+    .config(['$routeProvider', '$locationProvider', '$provide', ($routeProvider, $locationProvider, $provide) => {
+        $provide.decorator('$sniffer', function($delegate) {
+            $delegate.history = false;
+            return $delegate;
+        });
+
         $routeProvider
             // home page
             .when('/', {
@@ -19,14 +24,14 @@ angular.module('appRoutes', [])
             })
 
             // Review Request that page will use the RequestCtrl
-            .when('/review_request', {
+            .when('/request', {
                 templateUrl: 'views/review_request.html',
                 controller: 'RequestController'
             })
 
             // TODO: Learn how to pass the blogID to the url and retrieve it in the path
             // Blog post
-            .when('/blogs', {
+            .when('/blogs/:id', {
                 templateUrl: 'views/blogPost.html',
                 controller: 'BlogController',
                 resolve: {
@@ -39,23 +44,42 @@ angular.module('appRoutes', [])
                 }
             })
 
-            //Blog Post creation page
+            // Blog Post creation page
             .when('/admin/create', {
                 templateUrl: 'views/createBlog.html',
                 controller: 'CreateController',
                 resolve: {
-                    credentials : function($cookies) {
-                        return $cookies.get('credentials')
+                    user : function($cookies) {
+                        return $cookies.get('user')
                     }
                 }
             })
 
-            // Not Found 404 error page
+            // Search Page
+            .when('/blogs', {
+                templateUrl: 'views/search.html',
+                controller: 'SearchController',
+                resolve: {
+                    advanced: function($blogPost, $route) {
+                        return $route.current.params.advanced;
+                        //return $blogPost.search($route.current.params.p0);
+                    }
+                }
+            })
+
+            // 404 Error page
+            .when('/404', {
+                templateUrl: 'views/404.html'
+            })
+
+            // Redirect to Not Found 404 error page
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/404'
             });
 
-        $locationProvider.html5Mode(true);
-        // TODO: Create all of the routes that will be used for the website.
-        //  this only has a few of the routes but there are more routes planned
+        $locationProvider.html5Mode({
+            requireBase: false,
+            enabled: true,
+            hashPrefix: '!'
+        });
     }]);
