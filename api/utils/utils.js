@@ -1,21 +1,18 @@
-const env = require('../../bin/enviroment');
+const env = require('../../bin/env');
 
 module.exports = utils = {
     checkLogin : function(login) {
-        let username = login.split(':')[0];
-        let password = login.split(':')[1];
-
-        for (let login = 0; login < env.logins.length; login++) {
-            if (username === env.logins[login].username && password === env.logins[login].password) {
-                return env.logins[login];
+        for (let user = 0; user < env.logins.length; user++) {
+            if (login[0] === env.logins[user].username && login[1] === env.logins[user].password) {
+                return env.logins[user];
             }
         }
 
         return undefined;
     },
-    checkAuth : function(username, password) {
+    checkAuth : function(auth) {
         for (let user = 0; user < env.apiAuth.length; user++) {
-            if (username === env.apiAuth[user].username && password === env.apiAuth[user].password) {
+            if (auth[0] === env.apiAuth[user].username && auth[1] === env.apiAuth[user].password) {
                 return true;
             }
         }

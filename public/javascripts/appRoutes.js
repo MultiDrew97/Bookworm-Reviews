@@ -50,7 +50,10 @@ angular.module('appRoutes', [])
                 controller: 'CreateController',
                 resolve: {
                     user : function($cookies) {
-                        return $cookies.get('user')
+                        if ($cookies.get('user'))
+                            return JSON.parse($cookies.get('user'));
+                        else
+                            return {};
                     }
                 }
             })

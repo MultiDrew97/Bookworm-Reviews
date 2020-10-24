@@ -1,15 +1,12 @@
 angular.module('CreateCtrl', []).controller('CreateController', function($scope, $cookies, $blogPost, user) {
-    if (user) {
-        user = JSON.parse(user);
-        $scope.accountType = user.type
-    }
+    $scope.bloggerAccount = user['type'] === 'blogger';
+    console.log(user['type']);
 
-    $scope.accountType = ''
 
-    console.log($scope.accountType);
+    console.log($scope.bloggerAccount);
 
     // TODO: Use this when creating a blog post to upload the cover image
-    if ($scope.accountType === 'admin') {
+    if ($scope.accountType === 'blogger') {
         document.querySelector('#coverSelect').addEventListener('change', function (event) {
             $scope.coverFile = event.target.files[0];
         })

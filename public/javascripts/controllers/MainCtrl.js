@@ -1,8 +1,15 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $route, $cookies, $location, $login, $mdDialog) {
     const loginLink = document.querySelector('#login-link');
 
+    const checkInterval = setInterval(() => {
+        if ($cookies.get('user')) {
+            clearInterval(checkInterval);
+            loginLink.innerText = 'Logout';
+        }
+    }, 100);
+
     window.addEventListener('beforeunload', () => {
-        if ($cookies.get('remember') === 'false') {
+        if (!$cookies.get('remember')) {
             $login.logout();
         }
     })
@@ -34,20 +41,17 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ro
         }
     })
 
-    const checkInterval = setInterval(() => {
-        if ($cookies.get('user')) {
-            console.debug('user found')
-            console.debug($cookies.get('user'));
-            clearInterval(checkInterval);
-            loginLink.innerText = 'Logout';
-        }
-    }, 100);
-
     $scope.search = function(path, advanced) {
+        /*
+            Allow the use of the search buttons
+         */
         $location.path(path).search('advanced', advanced);
     }
 
     $scope.changePath = function(path) {
+        /*
+            Change the path in the url box to different pathings
+         */
         $location.path(path);
         $location.search('advanced', null);
     }

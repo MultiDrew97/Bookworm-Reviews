@@ -17,11 +17,10 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
                 $cookies.putObject('user', res.data, $env.cookie(exdays));
                 $cookies.put('remember', $scope.login.remember, $env.cookie(exdays));
                 $mdDialog.hide();
-                $route.reload();
-            } else {
-                alert('Please try again');
             }
+        }, fail => {
+            alert('Please try again')
+            document.querySelector('#password').value = "";
         })
-
     }
 })
