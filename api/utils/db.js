@@ -3,20 +3,20 @@ const fs = require('fs').promises;
 const BlogPost = require('../../public/javascripts/models/blogPost');
 const Request = require('../../public/javascripts/models/request');
 const Comment = require('../../public/javascripts/models/comment');
-const env = require('../../bin/env');
+const User = require('../../public/javascripts/models/user');
+const env = process.env.NODE_ENV === 'development' ? require('../../bin/env').debug : require('../../bin/env').production;
 
 
 class Database {
-    constructor(username, password, desiredPage = "Bookworm-Reviews", options = { useNewUrlParser: true, useUnifiedTopology: true }) {
+    constructor() {
         // connect to the mongoDB using the supplied credentials and defaulting to the Bookworm-Reviews table
         // if no other table is specified and using the default options if no other ones are specified
-        mongoose.connect(`mongodb+srv://${username}:${password}@bookworm-reviews-uze7z.gcp.mongodb.net/${desiredPage}?retryWrites=true&w=majority`, options, function(err) {
+        mongoose.connect(`mongodb+srv://${env.database.username}:${env.database.password}@bookworm-reviews-uze7z.gcp.mongodb.net/${env.database.desiredPage}?retryWrites=true&w=majority`, env.database.options, function(err) {
             if (err)
                 throw new Error('Failed to establish connection to the database');
 
-            /*console.log(mongoose.connections);*/
+            console.debug(`Connected to database with desired page ${env.database.desiredPage}`)
         });
-        /*console.log(connection);*/
     }
 
     getBlogs() {
@@ -34,8 +34,9 @@ class Database {
         return BlogPost.findById(id);
     }
 
-    findBlogs(criteria) {
-        return BlogPost.find(criteria);
+    findBlogs(advanced, criteria) {
+        return advanced ?
+            BlogPost.find(criteria, 'id bookTitle bookAuthor') : BlogPost.find(undefined, 'id bookTitle bookAuthor').or([{bookTitle: criteria.bookTitle}, {bookAuthor: criteria.bookAuthor}]);
     }
 
     addBlog(blog) {
@@ -142,6 +143,31 @@ class Database {
 
     saveCover(id, coverFileBuffer) {
         return fs.writeFile(`${env.locations.coverLocation}/${id}.png`, coverFileBuffer, 'binary');
+    }
+
+    getUsers() {
+        return User.find({});
+    }
+
+    getUser(username) {
+        return User.find({username: username});
+    }
+
+    addUser(user) {
+        let newUser = new User;
+
+        newUser.username = user.username;
+        newUser.password = user.password;
+        newUser.displayName = user.displayName;
+        newUser.firstName = user.firstName;
+        newUser.lastName = user.lastName;
+        newUser.userType = user.userType;
+
+        return newUser.save()
+    }
+
+    deleteUser(username) {
+        return User.findOneAndRemove({username: username})
     }
 }
 /*function DB(username, password, desiredPage = "Bookworm-Reviews", options = { useNewUrlParser: true, useUnifiedTopology: true }) {

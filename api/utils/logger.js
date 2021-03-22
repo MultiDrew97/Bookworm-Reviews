@@ -1,5 +1,5 @@
 const fs = require('fs');
-const env = require('../../bin/env');
+const env = process.env.NODE_ENV === 'production' ? require('../../bin/env').production : require('../../bin/env').debug;
 
 let logs = {console: undefined, error: undefined};
 

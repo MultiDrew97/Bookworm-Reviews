@@ -8,7 +8,7 @@ angular.module('BlogCtrl', []).controller('BlogController', function(blogInfo, b
 
     /*$scope.bookTitle = 'Vixen';
     $scope.blogPubDate = Date.now();
-    $scope.bookAuthor = 'Jillian Larkin';
+    $scope.bookAuthor = 'Jillian Larkin';*/
     $scope.comments = [
         {
             id: 1,
@@ -29,7 +29,7 @@ angular.module('BlogCtrl', []).controller('BlogController', function(blogInfo, b
                 down: 3
             }
         }
-    ]*/
+    ]
 
     $scope.submitComment = () => {
         /*let comment = {

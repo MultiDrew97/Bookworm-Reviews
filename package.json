@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/server"
+    "debug": "NODE_ENV=development node bin/server",
+    "start": "NODE_ENV=production node bin/server"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

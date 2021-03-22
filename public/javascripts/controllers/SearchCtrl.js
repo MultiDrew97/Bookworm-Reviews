@@ -1,19 +1,33 @@
 angular.module('SearchCtrl', []).controller('SearchController', function($scope, $blogPost, advanced) {
     $scope.advancedSearch = advanced;
+    console.log($scope.advancedSearch);
 
-    $scope.advanced = {};
+    $scope.criteria = {
+        advanced: {},
+        normal: ""
+    };
 
     $scope.search = function() {
-        let criteria = {}
+        let searchCriteria;
 
         if (advanced) {
-            console.log($scope.advanced);
-            /*$blogPost.search($scope.advanced);*/
+            searchCriteria = {
+                bookTitle: $scope.criteria.advanced.bookTitle,
+                bookAuthor: $scope.criteria.advanced.bookAuthor
+            };
         } else {
-            console.log($scope.normal);
-            criteria.bookTitle = `/${$scope.normal}/i`
-            criteria.bookAuthor = `/${$scope.normal}/i`
-            //$blogPost.search(JSON.stringify(criteria))
+            searchCriteria = {
+                value: $scope.criteria.normal
+            };
         }
+
+        console.debug(searchCriteria);
+
+        $blogPost.search(searchCriteria).then(blogs => {
+            console.debug(blogs)
+        }, fail => {
+            console.error('Failed to perform the search');
+            console.trace(fail)
+        })
     }
 })

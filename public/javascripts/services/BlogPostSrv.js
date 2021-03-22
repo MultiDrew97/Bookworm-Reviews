@@ -62,7 +62,20 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
             xhr.send(data);
         },
         search: function(criteria) {
-            return $http.get(`/api/blogs/search?p0=${$crypto.encode(criteria)}`, {
+            return criteria.bookTitle ? $http.get(`/api/blogs/search?p0=${criteria.bookTitle}&p1=${criteria.bookAuthor}`, {
+                headers: {
+                    withCredentials: true,
+                    authorization: `Basic ${apiAuth}`
+                }
+            }) : $http.get(`/api/blogs/search?p0=${criteria.value}`, {
+                headers: {
+                    withCredentials: true,
+                    authorization: `Basic ${apiAuth}`
+                }
+            })
+        },
+        getComment: function(id) {
+            return $http.get(`/api/comment?id=${id}`, {
                 headers: {
                     withCredentials: true,
                     authorization: `Basic ${apiAuth}`

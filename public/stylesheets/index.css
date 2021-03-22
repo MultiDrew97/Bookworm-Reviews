@@ -38,7 +38,7 @@ a:hover {
     color: coral;
 }
 
-.header {
+.header, footer {
     text-align: left;
     /*background-image: url('../images/header_image.png');
     background-repeat: no-repeat;
@@ -59,7 +59,7 @@ a:hover {
 
 #bottom-of-page {
     text-align: right;
-    padding-right: 1%;
+    padding: 1%;
 }
 
 #topLink {
@@ -74,6 +74,7 @@ a:hover {
     border-radius: 10%;
 }
 
+/*
 #search-bar {
     display: inline-flex;
     width: auto;
@@ -81,6 +82,7 @@ a:hover {
     left: 80%;
     padding: 0.3%;
 }
+*/
 
 #search-button {
     margin: 0 0 0 5%;
@@ -89,6 +91,7 @@ a:hover {
 body {
     width: auto;
     height: auto;
+    background-color: #97bdd9;
 }
 
 #top-image {
@@ -128,18 +131,25 @@ body {
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #ddd;}
-
-/* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-content {display: block;}
-
-/* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: lightskyblue;}
-
-.dropbtn:hover {
-    background-color: lightskyblue;
+.dropdown-content a:hover {
+    background-color: #ddd;
 }
 
-.dynamic {
-    margin-top: 2%;
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #87cefa;
+}
+
+.dropbtn:hover {
+    background-color: #87cefa;
+}
+
+.container {
+    background-color: #00B7FF;
+    max-width: 75%;
 }

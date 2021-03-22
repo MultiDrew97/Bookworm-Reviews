@@ -41,18 +41,17 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $ro
         }
     })
 
-    $scope.search = function(path, advanced) {
+    $scope.search = function(advanced) {
         /*
             Allow the use of the search buttons
          */
-        $location.path(path).search('advanced', advanced);
+        $location.path('/search').search('advanced', advanced);
     }
 
     $scope.changePath = function(path) {
         /*
             Change the path in the url box to different pathings
          */
-        $location.path(path);
-        $location.search('advanced', null);
+        $location.path(path).search('advanced', null);
     }
 })

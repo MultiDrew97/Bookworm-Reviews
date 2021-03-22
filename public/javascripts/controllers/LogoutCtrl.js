@@ -1,5 +1,5 @@
 angular.module('LogoutCtrl', []).controller('LogoutController', function($scope, $cookies, $mdDialog, $login, $location, $route) {
-    $scope.name = (JSON.parse($cookies.get('user'))).displayName;
+    $scope.name = (JSON.parse($cookies.get('user'))).DisplayName;
     $scope.timer = 3;
     $login.logout();
 
@@ -14,7 +14,7 @@ angular.module('LogoutCtrl', []).controller('LogoutController', function($scope,
 
     setTimeout(function() {
         $location.path('/');
-        $route.reload();
+        //$route.reload();
         $mdDialog.hide();
     }, 3000);
 })

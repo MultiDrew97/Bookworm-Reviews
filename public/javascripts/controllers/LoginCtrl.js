@@ -7,7 +7,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
     $scope.loginUser = function() {
         $login.login($scope.login).then(res => {
             if (res.status === 200) {
-                alert(`Welcome Back, ${res.data.displayName}`);
+                alert(`Welcome Back, ${res.data.DisplayName}`);
                 let exdays = 1;
 
                 if ($scope.login.remember) {
@@ -17,6 +17,7 @@ angular.module('LoginCtrl', []).controller('LoginController', function($scope, $
                 $cookies.putObject('user', res.data, $env.cookie(exdays));
                 $cookies.put('remember', $scope.login.remember, $env.cookie(exdays));
                 $mdDialog.hide();
+                $route.reload();
             }
         }, fail => {
             alert('Please try again')

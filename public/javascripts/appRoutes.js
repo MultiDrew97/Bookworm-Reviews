@@ -59,7 +59,7 @@ angular.module('appRoutes', [])
             })
 
             // Search Page
-            .when('/blogs', {
+            .when('/search', {
                 templateUrl: 'views/search.html',
                 controller: 'SearchController',
                 resolve: {

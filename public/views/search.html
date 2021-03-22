@@ -7,20 +7,20 @@
 		<link rel="stylesheet" href="../stylesheets/search.css" />
 	</head>
 	<body ng-controller="SearchController">
-		<div class="advanced-search" ng-if="advancedSearch">
-			<form class="advanced" ng-submit="search()">
-				<input type="text" ng-model="advanced.bookTitle" placeholder="Book Title" />
-
-				<input type="text" ng-model="advanced.bookAuthor" placeholder="Book Author" />
-
-				<!-- TODO: Add a date filter to be able to find blogs from certain date ranges -->
+		<div class="normal-search" ng-if="!advancedSearch">
+			<form class="normal" ng-submit="search()">
+				<input type="text" ng-model="criteria.normal" placeholder="Search..." />
 				<input type="submit" value="Search" />
 			</form>
 		</div>
 
-		<div class="normal-search" ng-if="!advancedSearch">
-			<form class="normal" ng-submit="search()">
-				<input type="text" ng-model="normal" placeholder="Search..." />
+		<div class="advanced-search" ng-if="advancedSearch">
+			<form class="advanced" ng-submit="search()">
+				<input type="text" ng-model="criteria.advanced.bookTitle" placeholder="Book Title" />
+
+				<input type="text" ng-model="criteria.advanced.bookAuthor" placeholder="Book Author" />
+
+				<!-- TODO: Add a date filter to be able to find blogs from certain date ranges -->
 				<input type="submit" value="Search" />
 			</form>
 		</div>

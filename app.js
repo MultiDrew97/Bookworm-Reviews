@@ -11,7 +11,7 @@ const logger = require('morgan');
 const multer = require('multer');
 const upload = multer();
 // TODO: Figure out how to handle the credentials for API and website
-const env = require('./bin/env');
+const env = process.env.NODE_ENV === "development" ? require('./bin/env').debug : require('./bin/env').production;
 const utils = require('./api/utils/utils');
 
 const logStream = fs.createWriteStream(path.join(__dirname, `logs/${env.logs.access}`), {flags: 'a'});
@@ -70,7 +70,7 @@ let db;
 
 try {
     logs.log('Connecting to database');
-    db = new Database(env.dbCredentials.username, env.dbCredentials.password);
+    db = new Database(env.database.username, env.database.password);
     logs.log('Connected to database');
 } catch (err) {
     logs.error('Error occurred when connecting to database', err)
@@ -114,7 +114,7 @@ app.get('/api/blogpost', (req, res) => {
 
         if (utils.checkAuth(auth)) {
 
-            const path = `${env.blogLocation}/${req.query.id}.txt`;
+            const path = `${env.locations.blogLocation}/${req.query.id}.txt`;
             if (fs.access(path, (err)=> {
                 if (err) {
                     console.error(err);
@@ -186,20 +186,25 @@ app.get('/api/blogs/search', (req, res) => {
         let auth = (jsBase64.decode(req.headers.authorization.split(" ")[1])).split(':');
 
         if (utils.checkAuth(auth)) {
-            /*let criteria = req.query.p0;
-            let search = {
-                bookTitle: `/${criteria}/i`,
-                bookAuthor: `/${criteria}/i`
+            // let info = jsBase64.decode(req.query.p0);
+            let criteria = {
+                bookTitle: new RegExp(req.query.p0, 'i'),
+                bookAuthor: new RegExp((req.query.p1 ? req.query.p1 : req.query.p0), 'i')
             }
-            db.findBlogs(search).then((err, blogs) => {
-                if (err)
-                    res.sendStatus(400);
 
-                res.send(blogs)
-            })*/
+            /*
+                Below line is same as:
+                let advanced = req.query.p0 ? true : false
+             */
+            let advanced = !!req.query.p1;
 
-            console.log(JSON.parse(jsBase64.decode(req.query.p0)));
-            res.sendStatus(200);
+            db.findBlogs(advanced, criteria).then(blogs => {
+                logs.log("A search was performed on the database", {advanced: advanced, criteria: criteria})
+                res.status(200).send(blogs)
+            }, fail => {
+                logs.error("A search failed on the database", fail)
+                res.sendStatus(400)
+            })
         } else {
             unAuth(auth, res);
         }
@@ -306,18 +311,25 @@ app.delete('/api/requests', async (req, res) => {
     }
 })
 
-app.get('/api/login', (req, res) => {
+app.get('/api/login', async (req, res) => {
     if (req.headers.authorization) {
         let auth = (jsBase64.decode(req.headers.authorization.split(' ')[1])).split(':');
 
         if (utils.checkAuth(auth)) {
-            let user = utils.checkLogin((jsBase64.decode(req.query.p0)).split(':'));
+            let login = {username: jsBase64.decode(req.query.p0).split(':')[0], password: jsBase64.decode(req.query.p0).split(':')[1]};
+            let users = [];
+            db.getUsers().then(data => {
+                for (let i = 0; i < data.length; i++) {
+                    users.push(data[i]._doc);
+                }
+                let user = utils.checkLogin(users, login);
 
-            if (user) {
-                res.status(200).send(user);
-            } else {
-                res.sendStatus(401);
-            }
+                if (user) {
+                    res.status(200).send(user);
+                } else {
+                    res.sendStatus(401);
+                }
+            })
         } else {
             unAuth(auth, res);
         }

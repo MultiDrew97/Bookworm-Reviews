@@ -48,11 +48,16 @@
                 <div class="dropdown">
                     <button class="dropbtn">Looking for Something?</button>
                     <div class="dropdown-content">
-                        <a ng-click="search('/blogs', false)" href="#">Search</a>
-                        <a ng-click="search('/blogs', true)" href="#">Advanced Search</a>
+                        <a ng-click="search(false)" href="#">Search</a>
+                        <a ng-click="search(true)" href="#">Advanced Search</a>
                     </div>
                 </div>
-                <button class="dropbtn" ng-href="#" id="login-link" ng-click="popup(event)">Login</button>
+                <div class="dropdown">
+                    <button class="dropbtn">Account</button>
+                    <div class="dropdown-content">
+                        <a ng-href="#" id="login-link" ng-click="popup(event)">Login</a>
+                    </div>
+                </div>
                 <!--<span id="search-bar">-->
                     <!--<form id="search-bar" ng-submit="search()">
                         <input type="text" id="search-box" placeholder="Search...">
@@ -65,9 +70,11 @@
         <!-- ANGULAR DYNAMIC PORTION -->
         <!-- TODO: I'm not to confident in how this works for webpages. I'll have to mess around
                 with it more to get a better understanding of how exactly it works -->
-        <div class="dynamic">
-            <!-- This allows the page to be dynamically displayed using angular libraries -->
-            <ng-view/>
+        <div class="container">
+            <div class="dynamic">
+                <!-- This allows the page to be dynamically displayed using angular libraries -->
+                <ng-view/>
+            </div>
         </div>
 
         <footer id="bottom-of-page">
