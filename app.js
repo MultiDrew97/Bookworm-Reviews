@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fs = require('fs');
 const Database = require('./api/utils/db');
-const Logs = require('./api/utils/logger');
 const jsBase64 = require('js-base64');
 const logger = require('morgan');
 const multer = require('multer');
@@ -13,38 +12,7 @@ const upload = multer();
 // TODO: Figure out how to handle the credentials for API and website
 const env = process.env.NODE_ENV === "development" ? require('./bin/env').debug : require('./bin/env').production;
 const utils = require('./api/utils/utils');
-
 const logStream = fs.createWriteStream(path.join(__dirname, `logs/${env.logs.access}`), {flags: 'a'});
-let temp;
-
-try {
-    temp = fs.opendirSync(path.join(__dirname, 'logs'));
-    console.log('Directory already exists');
-} catch (ex) {
-    fs.mkdirSync(path.join(__dirname, 'logs'));
-    try {
-        temp = fs.opendirSync(path.join(__dirname, 'logs'));
-    } catch (ex) {
-        console.trace(ex);
-    }
-} finally {
-    temp.closeSync();
-}
-/*const errorLog = fs.createWriteStream(path.join(__dirname, 'logs/node_error.log'), {flags: 'a'});
-
-(function() {
-    let origLog = console.log;
-    console.log = function(message) {
-        origLog(message)
-        accessLog.write(message);
-    }
-
-    let origErr = console.error;
-    console.error = function(error) {
-        origErr(error);
-        errorLog.write(error);
-    }
-})();*/
 
 const app = express();
 
@@ -56,24 +24,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(upload.any());
 
-let logs;
-
-try {
-    logs = new Logs();
-    logs.log('Created logger');
-} catch (err) {
-    console.trace(err);
-}
-
-
 let db;
 
 try {
-    logs.log('Connecting to database');
+    utils.logs.log('Connecting to database');
     db = new Database(env.database.username, env.database.password);
-    logs.log('Connected to database');
+    utils.logs.log('Connected to database');
 } catch (err) {
-    logs.error('Error occurred when connecting to database', err)
+    utils.logs.error('Error occurred when connecting to database', err)
     console.trace(err);
 }
 // set the port
@@ -101,10 +59,10 @@ app.get('/api/blogs', async (req, res) => {
                 });
             }
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 });
 
@@ -128,10 +86,10 @@ app.get('/api/blogpost', (req, res) => {
 
             }
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 })
 
@@ -155,10 +113,10 @@ app.post('/api/blogs', async (req, res) => {
                 res.sendStatus(400);
             })
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 });
 
@@ -174,10 +132,10 @@ app.delete('/api/blogs', async (req, res) => {
                 res.sendStatus(400);
             });
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res)
+        utils.noAuth(res)
     }
 });
 
@@ -186,7 +144,6 @@ app.get('/api/blogs/search', (req, res) => {
         let auth = (jsBase64.decode(req.headers.authorization.split(" ")[1])).split(':');
 
         if (utils.checkAuth(auth)) {
-            // let info = jsBase64.decode(req.query.p0);
             let criteria = {
                 bookTitle: new RegExp(req.query.p0, 'i'),
                 bookAuthor: new RegExp((req.query.p1 ? req.query.p1 : req.query.p0), 'i')
@@ -199,17 +156,57 @@ app.get('/api/blogs/search', (req, res) => {
             let advanced = !!req.query.p1;
 
             db.findBlogs(advanced, criteria).then(blogs => {
-                logs.log("A search was performed on the database", {advanced: advanced, criteria: criteria})
+                utils.logs.log("A search was performed on the database", {advanced: advanced, criteria: criteria})
                 res.status(200).send(blogs)
             }, fail => {
-                logs.error("A search failed on the database", fail)
+                utils.logs.error("A search failed on the database", fail)
                 res.sendStatus(400)
             })
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res)
+        utils.noAuth(res)
+    }
+})
+
+/*
+    Comment related API handles
+ */
+
+app.get('/api/comment', (req, res) => {
+    if (req.headers.authorization) {
+        let auth = (jsBase64.decode(req.headers.authorization.split(" ")[1])).split(':');
+
+        if (utils.checkAuth(auth)) {
+
+            (new Promise((resolve, reject) => {
+                let results = [];
+                db.getBlogComments(req.query.blogID).then(async comments => {
+                    utils.logs.log(`Comments for the blog with ID ${req.query.blogID} were retrieved`)
+
+                    for(let i = 0; i < comments.comments.length; i++) {
+                        await db.getComment(comments.comments[i]).then(comment => {
+                            results.push(comment)
+                        }, err => {
+                            utils.logs.error(`Failed to retrieve comment with ID ${comments.comments[i]}`, err)
+                        });
+                    }
+
+                    resolve(results)
+                }, err => {
+                    utils.logs.error(`Couldn't retrieve comments for blog with ID: ${req.query.blogID}`, err)
+                    reject(err);
+                })
+            })).then(comments => {
+                res.send(comments);
+            })
+
+        } else {
+            utils.unAuth(auth, res);
+        }
+    } else {
+        utils.noAuth(res)
     }
 })
 
@@ -236,14 +233,16 @@ app.post('/api/comment', async (req, res) => {
                 res.sendStatus(400);
             });
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res)
+        utils.noAuth(res)
     }
 })
 
-// Request Related API Methods
+/*
+    Request Related API Methods
+ */
 
 app.get('/api/requests', async (req, res) => {
     if (req.headers.authorization) {
@@ -266,10 +265,10 @@ app.get('/api/requests', async (req, res) => {
                 })
             }
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 });
 
@@ -285,10 +284,10 @@ app.post('/api/requests', async (req, res) => {
                 res.sendStatus(400);
             });
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 })
 
@@ -304,19 +303,24 @@ app.delete('/api/requests', async (req, res) => {
                 res.sendStatus(404);
             });
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 })
 
-app.get('/api/login', async (req, res) => {
+/*
+    Login based API handles
+ */
+
+app.get('/api/login', (req, res) => {
     if (req.headers.authorization) {
         let auth = (jsBase64.decode(req.headers.authorization.split(' ')[1])).split(':');
 
         if (utils.checkAuth(auth)) {
-            let login = {username: jsBase64.decode(req.query.p0).split(':')[0], password: jsBase64.decode(req.query.p0).split(':')[1]};
+            const loginParts = jsBase64.decode(req.query.p0).split(':')
+            let login = {username: loginParts[0], password: loginParts[1]};
             let users = [];
             db.getUsers().then(data => {
                 for (let i = 0; i < data.length; i++) {
@@ -331,35 +335,38 @@ app.get('/api/login', async (req, res) => {
                 }
             })
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 })
 
+/*
+    Cover related API handles
+ */
+
 app.put('/api/cover', async (req, res) => {
     if (req.headers.authorization) {
-        let auth = jsBase64.decode(req.headers.authorization.split(' ')[1]);
-
+        let auth = (jsBase64.decode(req.headers.authorization.split(' ')[1])).split(':');
 
         if (utils.checkAuth(auth)) {
             db.saveCover(req.query.id, req.files[0].buffer).then(() => {
                 res.sendStatus(201);
             }, fail => {
                 console.error(fail);
-                logs.error('Failed to access database', fail)
+                utils.logs.error('Failed to access database', fail)
                 res.sendStatus(400);
             });
         } else {
-            unAuth(auth, res);
+            utils.unAuth(auth, res);
         }
     } else {
-        noAuth(res);
+        utils.noAuth(res);
     }
 })
 
-function unAuth(auth, res) {
+/*function unAuth(auth, res) {
     logs.error('Unauthorized attempt to use API', auth)
     res.sendStatus(401);
 }
@@ -367,6 +374,6 @@ function unAuth(auth, res) {
 function noAuth(res) {
     logs.error('Attempt to use API without authorization');
     res.sendStatus(401);
-}
+}*/
 
 module.exports = app;

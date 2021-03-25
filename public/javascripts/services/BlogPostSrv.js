@@ -47,16 +47,25 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
                 }
             })
         },
-        uploadCover: function(id, image) {
+        getComments: function(blogID) {
+            return $http.get(`/api/comment?blogID=${blogID}`, {
+                headers: {
+                    withCredentials: true,
+                    authorization: `Basic ${apiAuth}`
+                }
+            })
+        },
+        uploadCover: async function(id, image) {
             const data = new FormData();
             data.append('coverFile', image, 'CoverFile.png');
 
             const xhr = new XMLHttpRequest();
-            xhr.addEventListener('readystatechange', function() {
+            xhr.addEventListener('readystatechange', async function() {
                 if (this.readyState === 4) {
-                    console.log(this.responseText);
+
                 }
             })
+
             xhr.open('PUT', `/api/cover?id=${id}`);
             xhr.setRequestHeader('Authorization', `Basic ${apiAuth}`);
             xhr.send(data);
@@ -68,14 +77,6 @@ angular.module('BlogPostSrv', []).service('$blogPost', function($http, $env, $cr
                     authorization: `Basic ${apiAuth}`
                 }
             }) : $http.get(`/api/blogs/search?p0=${criteria.value}`, {
-                headers: {
-                    withCredentials: true,
-                    authorization: `Basic ${apiAuth}`
-                }
-            })
-        },
-        getComment: function(id) {
-            return $http.get(`/api/comment?id=${id}`, {
                 headers: {
                     withCredentials: true,
                     authorization: `Basic ${apiAuth}`

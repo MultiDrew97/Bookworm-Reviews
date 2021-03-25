@@ -1,0 +1,21 @@
+.blog {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: space-evenly;
+}
+
+.blog-info {
+    text-align: center;
+}
+
+.search-container {
+    width: auto;
+    max-width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    padding: 1%;
+    justify-content: center;
+}

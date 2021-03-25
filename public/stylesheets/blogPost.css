@@ -3,13 +3,13 @@
 }
 
 #blog-text {
-    max-width: 900px;
-    margin: 10%;
+    max-width: 100%;
+    margin: 5%;
     line-height: 1.5rem;
 }
 
 .container {
-    width: 50%;
+    width: 70%;
     text-align: center;
 }
 
@@ -24,7 +24,7 @@
 }
 
 #submit-comment {
-    margin: 2% 0% 1% 85%;
+    margin: 2% 0 1% 85%;
     max-width: 500px;
     width: 100px;
     font-size: 16px;
@@ -72,8 +72,12 @@ hr {
     max-width: 100%;
     width: 50%;
     margin: 10% auto;
-    padding: 0% 0% 10% 0%;
+    padding: 0 0 10% 0;
     border-top: black 1px solid;
+}
+
+.comment:last-child {
+    margin: auto;
 }
 
 .commenter {

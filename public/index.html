@@ -40,7 +40,7 @@
     </head>
 
     <body ng-controller="MainController">
-        <header class="header">
+        <header id="top-of-page">
             <nav>
                 <button class="dropbtn" ng-click="changePath('/')" id="home-link"><!--<img src="./images/home_logo.png" alt="Bookworm Reviews"/>-->Home</button>
                 <button class="dropbtn" ng-click="changePath('/admin/create')" id="about-link">About Me</button>
@@ -48,8 +48,8 @@
                 <div class="dropdown">
                     <button class="dropbtn">Looking for Something?</button>
                     <div class="dropdown-content">
-                        <a ng-click="search(false)" href="#">Search</a>
-                        <a ng-click="search(true)" href="#">Advanced Search</a>
+                        <a ng-click="search('normal')" href="#">Search</a>
+                        <a ng-click="search('advanced')" href="#">Advanced Search</a>
                     </div>
                 </div>
                 <div class="dropdown">
@@ -70,7 +70,7 @@
         <!-- ANGULAR DYNAMIC PORTION -->
         <!-- TODO: I'm not to confident in how this works for webpages. I'll have to mess around
                 with it more to get a better understanding of how exactly it works -->
-        <div class="container">
+        <div class="main-container">
             <div class="dynamic">
                 <!-- This allows the page to be dynamically displayed using angular libraries -->
                 <ng-view/>

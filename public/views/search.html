@@ -7,26 +7,39 @@
 		<link rel="stylesheet" href="../stylesheets/search.css" />
 	</head>
 	<body ng-controller="SearchController">
-		<div class="normal-search" ng-if="!advancedSearch">
-			<form class="normal" ng-submit="search()">
-				<input type="text" ng-model="criteria.normal" placeholder="Search..." />
-				<input type="submit" value="Search" />
-			</form>
-		</div>
+		<div class="search-container">
+			<div class="normal-search" ng-if="searchType === 'normal'">
+				<form class="normal" ng-submit="search()">
+					<input type="text" ng-model="criteria.normal" placeholder="Search..." />
+					<input type="submit" value="Search" />
+				</form>
+			</div>
 
-		<div class="advanced-search" ng-if="advancedSearch">
-			<form class="advanced" ng-submit="search()">
-				<input type="text" ng-model="criteria.advanced.bookTitle" placeholder="Book Title" />
+			<div class="advanced-search" ng-if="searchType === 'advanced'">
+				<form class="advanced" ng-submit="search()">
+					<input type="text" ng-model="criteria.advanced.bookTitle" placeholder="Book Title" />
 
-				<input type="text" ng-model="criteria.advanced.bookAuthor" placeholder="Book Author" />
+					<input type="text" ng-model="criteria.advanced.bookAuthor" placeholder="Book Author" />
 
-				<!-- TODO: Add a date filter to be able to find blogs from certain date ranges -->
-				<input type="submit" value="Search" />
-			</form>
+					<!-- TODO: Add a date filter to be able to find blogs from certain date ranges -->
+					<input type="submit" value="Search" />
+				</form>
+			</div>
 		</div>
 
 		<div class="results">
+			<div class="blog" ng-repeat="blog in blogs">
+				<article>
+					<div class="cover-container">
+						<img ng-src="../images/covers/{{ blog._id }}.png" alt="{{ blog.bookTitle }}" />
+					</div>
 
+					<div class="blog-info">
+						<h3>{{ blog.bookTitle }}</h3>
+						<h5>{{ blog.bookAuthor }}</h5>
+					</div>
+				</article>
+			</div>
 		</div>
 	</body>
 </html>

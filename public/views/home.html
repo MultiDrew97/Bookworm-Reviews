@@ -8,17 +8,17 @@
         <main class="blogs-container">
             <div class="blog-posts" ng-repeat="blog in blogs">
                 <article class="blog-entry">
-                    <img class="book-cover" ng-src="../images/covers/{{ blog._id }}.png" alt="{{ blog.bookTitle }} Book Cover"/>
+                    <img class="book-cover" ng-src="../images/covers/{{ blog._id }}.png" alt="{{ blog.bookTitle }}"/>
                     <header class="blog-header">
                         <a ng-href="/blogs/{{ blog._id }}"><h3 class="book-title"> {{ blog.bookTitle | uppercase }} </h3></a>
                         <h5 class="book-author"> {{ blog.bookAuthor | uppercase }}</h5>
                         <p class="description">{{ blog.description }}</p>
                     </header>
 
-                    <!-- TODO: figure out what else to show with the blog posts-->
-                    <footer class="blog-footer">
-                        <p class="book-published">{{ blog.bookPubDate | date }}</p>
-                    </footer>
+                    <!-- TODO: Do I want to show the blog publication date here? -->
+                    <!--<footer class="blog-footer">
+                        <p class="book-published">{{ blog.blogPubDate | date }}</p>
+                    </footer>-->
                 </article>
             </div>
         </main>

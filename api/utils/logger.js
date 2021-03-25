@@ -13,7 +13,7 @@ class Logger {
             logs.error = fs.createWriteStream(`./logs/${env.logs.error}`, {flags: 'a'});
         } catch (ex) {
             /*
-                An error occured when trying to create the write streams for one or both of the logs
+                An error occurred when trying to create the write streams for one or both of the logs
              */
             console.error('Failed to create log files', ex);
         }

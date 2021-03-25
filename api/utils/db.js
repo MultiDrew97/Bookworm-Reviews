@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 const fs = require('fs').promises;
-const BlogPost = require('../../public/javascripts/models/blogPost');
-const Request = require('../../public/javascripts/models/request');
-const Comment = require('../../public/javascripts/models/comment');
-const User = require('../../public/javascripts/models/user');
+const BlogPost = require('./models/blogPost');
+const Request = require('./models/request');
+const Comment = require('./models/comment');
+const User = require('./models/user');
 const env = process.env.NODE_ENV === 'development' ? require('../../bin/env').debug : require('../../bin/env').production;
 
 
@@ -54,7 +54,6 @@ class Database {
 
         newBlog.bookTitle = blog.bookTitle;
         newBlog.bookAuthor = blog.bookAuthor;
-        newBlog.blogAuthor = blog.blogAuthor;
         newBlog.comments = [];
 
         return newBlog.save(/*(saveErr) => {
@@ -73,8 +72,16 @@ class Database {
     }*/);
     }
 
+    getBlogComments(id) {
+        return BlogPost.findById(id, 'comments');
+    }
+
     deleteBlog(id) {
         return BlogPost.findByIdAndRemove(id);
+    }
+
+    getComment(id) {
+        return Comment.findById(id);
     }
 
     addComment(comment) {

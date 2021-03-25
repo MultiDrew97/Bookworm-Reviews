@@ -40,6 +40,9 @@ angular.module('appRoutes', [])
                     },
                     blogText: function ($blogPost, $route) {
                         return $blogPost.getText($route.current.params.id);
+                    },
+                    comments: function ($blogPost, $route) {
+                        return $blogPost.getComments($route.current.params.id)
                     }
                 }
             })
@@ -63,8 +66,8 @@ angular.module('appRoutes', [])
                 templateUrl: 'views/search.html',
                 controller: 'SearchController',
                 resolve: {
-                    advanced: function($blogPost, $route) {
-                        return $route.current.params.advanced;
+                    type: function($route) {
+                        return $route.current.params.type;
                         //return $blogPost.search($route.current.params.p0);
                     }
                 }
